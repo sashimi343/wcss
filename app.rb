@@ -14,7 +14,7 @@ DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 get '/' do
     @page_title = 'Sample Page'
-    @text = 'Hello, Heroku'
+    @text = 'Hello, Heroku?'
     erb :index
 end
 
