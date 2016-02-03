@@ -29,7 +29,7 @@ $ bundle install --path vendor/bundle
 
 # Dropbox access token
 $ echo DROPBOX_ACCESS_TOKEN=<your own access token> >>.env
-$ heroku config set DROPBOX_ACCESS_TOKEN=<your own access token>
+$ heroku config:set DROPBOX_ACCESS_TOKEN=<your own access token>
 
 # DB
 $ echo RACK_ENV=development >>.env
@@ -37,12 +37,13 @@ $ heroku addons:create heroku-postgresql
 $ heroku config
 === wcss Config Vars
 DATABASE_URL: postgres://username:password@host:port/database
-# これを基に.envにDB情報を追記
+# これを基に、heroku config:set で以下のキーを設定
 DATABASE_USERNAME=username
 DATABASE_PASSWORD=password
 DATABASE_HOST=host
 DATABASE=database
+
 $ git push heroku master
 $ heroku run rake db:migrate
-
+$ heroku open
 ```
