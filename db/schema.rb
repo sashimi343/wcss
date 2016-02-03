@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202052613) do
+ActiveRecord::Schema.define(version: 20160203115650) do
 
   create_table "administrators", force: :cascade do |t|
     t.string   "registration_id"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20160202052613) do
   end
 
   create_table "compilations", force: :cascade do |t|
-    t.string   "compilation_id"
+    t.string   "compilation_name"
     t.integer  "administrator_id"
     t.string   "title"
     t.text     "description"
@@ -31,22 +31,22 @@ ActiveRecord::Schema.define(version: 20160202052613) do
     t.datetime "deadline"
   end
 
-  create_table "compilations_composers", force: :cascade do |t|
+  create_table "composers", force: :cascade do |t|
+    t.string   "registration_id"
+    t.string   "password_digest", null: false
+    t.string   "name"
+    t.text     "contact"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "participations", force: :cascade do |t|
     t.integer  "compilation_id"
     t.integer  "composer_id"
     t.string   "song_title"
     t.string   "artist"
     t.string   "comment"
     t.datetime "submission"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "composers", force: :cascade do |t|
-    t.string   "registration_id"
-    t.string   "password_digest", null: false
-    t.string   "name"
-    t.text     "contact"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
