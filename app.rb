@@ -2,6 +2,7 @@ require 'sinatra'
 require 'active_record'
 require 'dropbox_sdk'
 require './models/administrator'
+require './extensions/user_auth'
 
 # .envファイルの読み込み
 require 'dotenv'
@@ -11,6 +12,9 @@ ActiveRecord::Base.configurations = YAML.load_file('config/database.yml')
 ActiveRecord::Base.establish_connection(ENV['RACK_ENV'])
 
 DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
+
+enable :sessions
+helpers UserAuth
 
 get '/' do
     @page_title = 'Sample Page'
@@ -44,13 +48,17 @@ post '/administrators' do
     @text = administrator.save ? 'Administrator creation success' : 'Error'
     erb :index
 end
+
+# ログイン機能のテスト
+get '/administrators/:registration_id' do |registration_id|
+    administrator = Administrator.find_by registration_id: registration_id 
+    halt 404 unless administrator
+
+    @page_title = 'Log in status'
+    @text = authorize? ? 'Loged in' : 'Not loged in'
+    erb :index
+end
 post '/login' do
     administrator = Administrator.find_by registration_id: params[:registration_id]
-
-    if administrator.authenticate params[:password]
-        @text = 'Login success'
-    else
-        @text = 'Incorrect password'
-    end
-    erb :index
+    session[:registration_id] = params[:registration_id]
 end
