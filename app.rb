@@ -13,6 +13,7 @@ ActiveRecord::Base.establish_connection(ENV['RACK_ENV'])
 DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 enable :sessions
+set :session_secret, 'himitsu desuno'
 register AdminRoute
 
 get '/' do
