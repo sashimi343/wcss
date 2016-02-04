@@ -2,10 +2,8 @@ require 'sinatra'
 require 'active_record'
 require 'dropbox_sdk'
 require './models/administrator'
-require './extensions/user_auth'
-require './extensions/admin'
+require './extensions/admin_route'
 
-# .envファイルの読み込み
 require 'dotenv'
 Dotenv.load
 
@@ -15,7 +13,7 @@ ActiveRecord::Base.establish_connection(ENV['RACK_ENV'])
 DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 enable :sessions
-helpers UserAuth, Admin
+register AdminRoute
 
 get '/' do
     @page_title = 'Sample Page'
