@@ -81,12 +81,34 @@ module AdminRoute
         end
 
         # 作曲者情報の表示と編集を行うページを表示する
-        base.get '/admin/composers/:registration_id' do |registration_id|
-            @composer = Composer.find_by registration_id: registration_id
+        base.get '/admin/composers/:user' do |user|
+            @composer = Composer.find_by registration_id: user
             halt 404 unless @composer
 
             @page_title = "#{@composer.name} (#{@composer.registration_id})"
+            @error_message = session[:composer_modification_error]   # 作成エラーがあれば表示
+            session[:composer_modification_error] = nil
             erb :composer
+        end
+
+        base.post '/admin/composers/:user' do |user|
+            composer = Composer.find_by registration_id: user
+            halt 404 unless composer
+
+            begin
+                composer.modify_information({
+                    registration_id: params[:registration_id],
+                    password: params[:password],
+                    password_confirmation: params[:password_confirmation],
+                    name: params[:name],
+                    contact: params[:contact]
+                })
+            rescue => e
+                session[:composer_modification_error] = e.message
+            ensure
+                redirect "/admin/composers/#{composer.registration_id}"
+            end
+
         end
     end
 end
