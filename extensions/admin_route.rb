@@ -27,14 +27,6 @@ module AdminRoute
             erb :login
         end
 
-        # 作曲者一覧の表示と新規登録フォームを表示する
-        base.get '/admin/composers' do
-            # 各作曲者の情報を表示
-            @page_title = 'Composers'
-            @text = "Composers"
-            erb :index
-        end
-
         # ログイン処理を行う
         base.post '/admin/login' do
             # ユーザ名、パスワードを検証する
@@ -54,6 +46,32 @@ module AdminRoute
         base.post '/admin/logout' do
             session[:admin_id] = nil
             redirect '/admin/login'
+        end
+
+        # 作曲者一覧の表示と新規登録フォームを表示する
+        base.get '/admin/composers' do
+            @composers = Composer.all
+            @error_message = session[:composer_addition_error]   # 作成エラーがあれば表示
+            session[:composer_addition_error] = nil
+            erb :composers
+        end
+
+        # 作曲者の追加処理を行う
+        base.post '/admin/composers' do
+            composer = Composer.create(
+                registration_id: params[:registration_id],
+                password: params[:password],
+                name: params[:name],
+                contact: params[:contact]
+            )
+
+            if composer.valid?
+                composer.save
+            else
+                session[:composer_addition_error] = composer.errors.messages
+            end
+
+            redirect '/admin/composers'
         end
     end
 end
