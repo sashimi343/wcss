@@ -2,11 +2,15 @@ require 'sinatra/base'
 
 module AdminRoute
     def self.registered(base)
+        # ログインが必要なページ
+        %w(/admin /admin/composers).each do |route|
+            base.before route do
+                redirect '/admin/login' unless session[:admin_id]
+            end
+        end
+
         # 管理者用ページを表示する
         base.get '/admin' do
-            # ユーザがログインしていない場合、ログインページに移動
-            redirect '/admin/login' unless session[:admin_id]
-
             @page_title = 'Administrator Page'
             @text = "Hello, #{session[:admin_id]}"
             erb :admin
@@ -21,6 +25,14 @@ module AdminRoute
             @error_message = session[:login_error]  # ログインエラーがあればそれを表示
             session[:login_error] = nil             # エラー情報のリセット
             erb :login
+        end
+
+        # 作曲者一覧の表示と新規登録フォームを表示する
+        base.get '/admin/composers' do
+            # 各作曲者の情報を表示
+            @page_title = 'Composers'
+            @text = "Composers"
+            erb :index
         end
 
         # ログイン処理を行う
