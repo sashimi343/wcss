@@ -40,7 +40,6 @@ module AdminRoute
 
         # ログアウト処理を行う
         base.post '/admin/logout' do
-            p 'logout!'
             session[:admin_id] = nil
             redirect '/admin/login'
         end
