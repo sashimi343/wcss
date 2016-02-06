@@ -3,7 +3,7 @@ require 'sinatra/base'
 module AdminRoute
     def self.registered(base)
         # ログインが必要なページ
-        %w(/admin /admin/composers).each do |route|
+        %w(/admin /admin/composers /admin/composers/*).each do |route|
             base.before route do
                 redirect '/admin/login' unless session[:admin_id]
             end
