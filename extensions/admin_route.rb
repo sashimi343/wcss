@@ -5,9 +5,7 @@ module AdminRoute
         # 管理者用ページを表示する
         base.get '/admin' do
             # ユーザがログインしていない場合、ログインページに移動
-            unless session.key? :admin_id
-                redirect '/admin/login'
-            end
+            redirect '/admin/login' unless session.key? :admin_id
 
             @page_title = 'Administrator Page'
             @text = 'Hello, Admin'
@@ -17,9 +15,7 @@ module AdminRoute
         # ログインフォームを表示する
         base.get '/admin/login' do
             # ログイン済みの場合、管理者用ページにリダイレクトする
-            if session.key? :admin_id
-                redirect '/admin'
-            end
+            redirect '/admin' if session.key? :admin_id
 
             @page_title = 'Administrator Login'
             erb :login
