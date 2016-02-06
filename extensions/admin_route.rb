@@ -50,6 +50,7 @@ module AdminRoute
 
         # 作曲者一覧の表示と新規登録フォームを表示する
         base.get '/admin/composers' do
+            @page_title = 'Composers'
             @composers = Composer.all
             @error_message = session[:composer_addition_error]   # 作成エラーがあれば表示
             session[:composer_addition_error] = nil
@@ -77,6 +78,15 @@ module AdminRoute
             end
 
             redirect '/admin/composers'
+        end
+
+        # 作曲者情報の表示と編集を行うページを表示する
+        base.get '/admin/composers/:registration_id' do |registration_id|
+            @composer = Composer.find_by registration_id: registration_id
+            halt 404 unless @composer
+
+            @page_title = "#{@composer.name} (#{@composer.registration_id})"
+            erb :composer
         end
     end
 end
