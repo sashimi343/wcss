@@ -1,5 +1,4 @@
 require 'active_record'
-require 'bcrypt'
 
 class Composer < ActiveRecord::Base
     # バリデーション
@@ -9,7 +8,7 @@ class Composer < ActiveRecord::Base
     validates :name, presence: true
 
     # 作曲者は複数のコンピに参加する
-    has_many :compilations
+    has_many :participations
 
     # 作曲者は複数の曲を作成する
     has_many :songs

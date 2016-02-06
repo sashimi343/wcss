@@ -1,5 +1,4 @@
 require 'active_record'
-require 'bcrypt'
 
 class Administrator < ActiveRecord::Base
     # バリデーション
