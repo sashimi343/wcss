@@ -58,7 +58,12 @@ module AdminRoute
 
         # 作曲者の追加処理を行う
         base.post '/admin/composers' do
-            composer = Composer.create(
+            unless params[:password] == params[:password_confirmation]
+                session[:composer_addition_error] = 'The passwords you entered do not match'
+                redirect '/admin/composers'
+            end
+
+            composer = Composer.new(
                 registration_id: params[:registration_id],
                 password: params[:password],
                 name: params[:name],
