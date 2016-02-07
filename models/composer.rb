@@ -10,9 +10,6 @@ class Composer < ActiveRecord::Base
     # 作曲者は複数のコンピに参加する
     has_many :participations
 
-    # 作曲者は複数の曲を作成する
-    has_many :songs
-
     # パスワードを暗号化する
     has_secure_password
 
