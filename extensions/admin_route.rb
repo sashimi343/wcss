@@ -113,8 +113,10 @@ module AdminRoute
 
         # コンピ一覧の表示とコンピ追加を行うページを表示する
         base.get '/admin/compilations' do
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+
             @page_title = 'Compilations'
-            @compilations = Compilation.all
+            @compilations = organizer.compilations if organizer
             @error_message = session[:error_message]   # 作成エラーがあれば表示
             session[:error_message] = nil
             erb :compilations
