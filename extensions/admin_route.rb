@@ -134,5 +134,16 @@ module AdminRoute
                 redirect '/admin/compilations'
             end
         end
+
+        # コンピ情報管理画面を表示する
+        base.get '/admin/compilations/:name' do |name|
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+            @compilation = organizer.compilations.find_by(compilation_name: name) if organizer
+            halt 404 unless @compilation
+
+            @page_title = @compilation.title
+            @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
+            erb :manage_compilation
+        end
     end
 end

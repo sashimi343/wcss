@@ -1,0 +1,48 @@
+<p><%= @compilation.description %></p>
+<h2>Requirements</h2>
+<ul>
+<% @compilation.requirement.each_line do |requirement| %>
+    <li><%= requirement %></li>
+<% end %>
+</ul>
+<h2>Deadline</h2>
+<p><%= @compilation.deadline %></p>
+<h2>Participations</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>composer name</th>
+            <th>contact</th>
+            <th>submitted at</th>
+            <th>artist</th>
+            <th>song title</th>
+            <th>comment</th>
+            <th>download</th>
+        </tr>
+    </thead>
+    <tbody>
+    <% @compilation.participations.each do |participation| %>
+        <tr>
+            <td><%= participation.composer.registration_id %></td>
+            <td><%= participation.composer.name %></td>
+            <td><%= participation.composer.contact %></td>
+            <td><%= participation.submission %></td>
+            <td><%= participation.artist %></td>
+            <td><%= participation.song_title %></td>
+            <td><%= participation.comment %></td>
+            <td><a href="#">TODO: download from Dropbox</a></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+<h2>Add a composer</h2>
+<form method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
+    <select name="registration_id">
+    <% @composers.each do |composer| %>
+        <option value="<%= composer.registration_id %>"><%= composer.name %> (<%= composer.registration_id %>)</option>
+    <% end %>
+    </select>
+    <input type="submit" value="add" />
+</form>
+<a href="/admin/compilations">Back</a>
