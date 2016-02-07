@@ -22,8 +22,8 @@ module AdminRoute
             redirect '/admin' if session[:admin_id]
 
             @page_title = 'Administrator Login'
-            @error_message = session[:login_error]  # ログインエラーがあればそれを表示
-            session[:login_error] = nil             # エラー情報のリセット
+            @error_message = session[:error_message]  # ログインエラーがあればそれを表示
+            session[:error_message] = nil             # エラー情報のリセット
             erb :login
         end
 
@@ -37,7 +37,7 @@ module AdminRoute
                 redirect '/admin'
             else
                 # 認証失敗
-                session[:login_error] = 'Incorrect ID or password'
+                session[:error_message] = 'Incorrect ID or password'
                 redirect '/admin/login'
             end
         end
@@ -52,15 +52,15 @@ module AdminRoute
         base.get '/admin/composers' do
             @page_title = 'Composers'
             @composers = Composer.all
-            @error_message = session[:composer_addition_error]   # 作成エラーがあれば表示
-            session[:composer_addition_error] = nil
+            @error_message = session[:error_message]   # 作成エラーがあれば表示
+            session[:error_message] = nil
             erb :composers
         end
 
         # 作曲者の追加処理を行う
         base.post '/admin/composers' do
             unless params[:password] == params[:password_confirmation]
-                session[:composer_addition_error] = 'The passwords you entered do not match'
+                session[:error_message] = 'The passwords you entered do not match'
                 redirect '/admin/composers'
             end
 
@@ -74,7 +74,7 @@ module AdminRoute
             if composer.valid?
                 composer.save
             else
-                session[:composer_addition_error] = composer.errors.messages
+                session[:error_message] = composer.errors.messages
             end
 
             redirect '/admin/composers'
@@ -86,8 +86,8 @@ module AdminRoute
             halt 404 unless @composer
 
             @page_title = "#{@composer.name} (#{@composer.registration_id})"
-            @error_message = session[:composer_modification_error]   # 作成エラーがあれば表示
-            session[:composer_modification_error] = nil
+            @error_message = session[:error_message]   # 作成エラーがあれば表示
+            session[:error_message] = nil
             erb :composer
         end
 
@@ -104,7 +104,7 @@ module AdminRoute
                     contact: params[:contact]
                 })
             rescue => e
-                session[:composer_modification_error] = e.message
+                session[:error_message] = e.message
             ensure
                 redirect "/admin/composers/#{composer.registration_id}"
             end
