@@ -1,0 +1,45 @@
+<table>
+    <thead>
+        <tr><th>ID</th><th>name</th><th>contact</th><th>created at</th><th>updated at</th></tr>
+    </thead>
+    <tbody>
+    <% @composers.each do |composer| %>
+        <tr>
+            <td><%= composer.registration_id %></td>
+            <td><%= composer.name %></td>
+            <td><%= composer.contact %></td>
+            <td><%= composer.created_at.in_time_zone 'Asia/Tokyo' %></td>
+            <td><%= composer.updated_at.in_time_zone 'Asia/Tokyo' %></td>
+            <td><a href="/admin/composers/<%= composer.registration_id %>">edit</a></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+<h2>Add new Composer</h2>
+<form method="POST" action="">
+    <p>
+    <label for="registration_id">ID: </label>
+    <input type="text" name="registration_id" />
+    </p>
+    <p>
+    <label for="password">password: </label>
+    <input type="password" name="password" />
+    </p>
+    <p>
+    <label for="password_confirmation">password (confirmation): </label>
+    <input type="password" name="password_confirmation" />
+    </p>
+    <p>
+    <label for="name">name: </label>
+    <input type="text" name="name" />
+    </p>
+    <p>
+    <label for="contact">contact (optional): </label>
+    <input type="text" name="contact" />
+    </p>
+    <p>
+    <input type="submit" value="add" />
+    </p>
+</form>
+<p><%= @error_message %></p>
+<p><a href="/admin">Back</a></p>
