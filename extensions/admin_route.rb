@@ -3,7 +3,7 @@ require 'sinatra/base'
 module AdminRoute
     def self.registered(base)
         # ログインが必要なページ
-        %w(/admin /admin/composers /admin/composers/*).each do |route|
+        %w(/admin /admin/composers /admin/composers/* /admin/compilations /admin/compilations/*).each do |route|
             base.before route do
                 redirect '/admin/login' unless session[:admin_id]
             end
@@ -109,6 +109,28 @@ module AdminRoute
                 redirect "/admin/composers/#{composer.registration_id}"
             end
 
+        end
+
+        # コンピ一覧の表示とコンピ追加を行うページを表示する
+        base.get '/admin/compilations' do
+            @page_title = 'Compilations'
+            @compilations = Compilation.all
+            @error_message = session[:error_message]   # 作成エラーがあれば表示
+            session[:error_message] = nil
+            erb :compilations
+        end
+
+        # コンピの追加処理を行う
+        base.post '/admin/compilations' do
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+
+            begin
+                organizer.hold_new_compilation params
+            rescue => e
+                session[:error_message] = e.message
+            ensure
+                redirect '/admin/compilations'
+            end
         end
     end
 end
