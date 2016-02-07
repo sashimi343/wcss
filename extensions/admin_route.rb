@@ -143,7 +143,27 @@ module AdminRoute
 
             @page_title = @compilation.title
             @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
+            @error_message = session[:error_message]   # 作成エラーがあれば表示
             erb :manage_compilation
+        end
+
+        # TODO: コンピ情報の編集機能
+        #base.get '/admin/compilations/:name' do |name|
+        #end
+        
+        # コンピへの作曲者追加の処理を行う
+        base.post '/admin/compilations/:name/participations' do |name|
+            composer = Composer.find_by registration_id: params[:registration_id]
+            compilation = Compilation.find_by compilation_name: name
+            halt 400 if composer.nil? or compilation.nil?
+
+            begin
+                composer.join_compilation compilation
+            rescue => e
+                session[:error_message] = e.message
+            ensure
+                redirect "/admin/compilations/#{name}" 
+            end
         end
     end
 end

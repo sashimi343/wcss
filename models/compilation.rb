@@ -15,6 +15,7 @@ class Compilation < ActiveRecord::Base
 
     # コンピには複数人の作曲者が参加する
     has_many :participations
+    has_many :composers, through: :participations
 
     # カスタムバリデータ
     # deadlineはコンピ開催時以降である必要がある

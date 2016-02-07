@@ -9,6 +9,7 @@ class Composer < ActiveRecord::Base
 
     # 作曲者は複数のコンピに参加する
     has_many :participations
+    has_many :compilations, through: :participations
 
     # パスワードを暗号化する
     has_secure_password
@@ -25,5 +26,18 @@ class Composer < ActiveRecord::Base
 
         update_attributes modifications
         save!
+    end
+
+    # コンピの参加者リストに追加する
+    # ==== Args
+    # _compilation_ :: 参加するコンピのモデル
+    # ==== Raise
+    # ArgumentError :: 作曲者が既にコンピに参加している場合に発生
+    def join_compilation(compilation)
+        if compilation.composers.find_by registration_id: registration_id
+            raise ArgumentError.new "Composer #{name} is already participate in compilation #{compilation.title}"
+        end
+
+        compilation.composers << self
     end
 end
