@@ -21,9 +21,11 @@ class Composer < ActiveRecord::Base
     # ArgumentError :: passwordとpassword_confirmationが一致しない場合に発生
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def modify_information(values)
-        raise ArgumentError.new('The passwords you entered do not match') unless values[:password] == values[:password_confirmation]
-        modifications = values.reject { |k, v| k == :password_confirmation or v.empty? }
+        unless values[:password] == values[:password_confirmation]
+            raise ArgumentError.new('The passwords you entered do not match')
+        end
 
+        modifications = values.reject { |k, v| !Composer.column_names.include? k or v.empty? }
         update_attributes modifications
         save!
     end
