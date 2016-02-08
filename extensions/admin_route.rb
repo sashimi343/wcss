@@ -13,7 +13,26 @@ module AdminRoute
         base.get '/admin' do
             @page_title = 'Administrator Page'
             @text = "Hello, #{session[:admin_id]}"
+            @error_message = session[:error_message]  # パスワード変更エラーがあればそれを表示
+            session[:error_message] = nil             # エラー情報のリセット
             erb :admin
+        end
+
+        # パスワードを変更する
+        base.post '/admin' do
+            administrator = Administrator.find_by registration_id: session[:admin_id]
+
+            begin
+                administrator.change_password(
+                    params[:current_password],
+                    params[:password],
+                    params[:password_confirmation]
+                )
+            rescue => e
+                session[:error_message] = e.message
+            ensure
+                redirect '/admin'
+            end
         end
 
         # ログインフォームを表示する
@@ -83,7 +102,7 @@ module AdminRoute
             halt 404 unless @composer
 
             @page_title = "#{@composer.name} (#{@composer.registration_id})"
-            @error_message = session[:error_message]   # 作成エラーがあれば表示
+            @error_message = session[:error_message]   # 編集エラーがあれば表示
             session[:error_message] = nil
             erb :composer
         end
@@ -133,7 +152,7 @@ module AdminRoute
 
             @page_title = @compilation.title
             @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
-            @error_message = session[:error_message]   # 作成エラーがあれば表示
+            @error_message = session[:error_message]   # 編集エラーがあれば表示
             session[:error_message] = nil
             erb :manage_compilation
         end

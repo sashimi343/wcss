@@ -3,6 +3,25 @@
     <li><a href="/admin/composers">Composers</a></li>
     <li><a href="/admin/compilations">Compilations</a></li>
 </ul>
+<h2>Change password</h2>
+<form method="POST" action="">
+    <p>
+    <label for="current_password">current password: </label>
+    <input type="password" name="current_password" />
+    </p>
+    <p>
+    <label for="password">new password: </label>
+    <input type="password" name="password" />
+    </p>
+    <p>
+    <label for="password_confirmation">new password (confirmation): </label>
+    <input type="password" name="password_confirmation" />
+    </p>
+    <p>
+    <input type="submit" value="change" />
+    </p>
+</form>
+<p><%= @error_message %></p>
 <form method="POST" action="/admin/logout">
     <p>
     <input type="submit" value="logout" />
