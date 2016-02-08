@@ -2,10 +2,12 @@ require 'active_record'
 
 class Composer < ActiveRecord::Base
     # バリデーション
-    # contact以外の項目は全て必須、IDは一意
+    VALID_NAME_REGEX = /[0-9a-z\_\-]{4,31}/i
     validates :registration_id, presence: true
     validates :registration_id, uniqueness: true
+    validates :registration_id, format: { with: VALID_NAME_REGEX }
     validates :name, presence: true
+    validates :name, length: { in: 1..63 }
 
     # 作曲者は複数のコンピに参加する
     has_many :participations
@@ -18,16 +20,14 @@ class Composer < ActiveRecord::Base
     # ==== Args
     # _values_ :: 変更後の値を格納したハッシュ。変更しない項目のキーに対応する値はnil。
     # ==== Raise
-    # ArgumentError :: passwordとpassword_confirmationが一致しない場合に発生
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def modify_information(values)
         unless values[:password] == values[:password_confirmation]
-            raise ArgumentError.new('The passwords you entered do not match')
+            raise ArgumentError.new 'The passwords you entered do not match'
         end
 
         modifications = values.reject { |k, v| !Composer.column_names.include? k or v.empty? }
-        update_attributes modifications
-        save!
+        update! modifications
     end
 
     # コンピの参加者リストに追加する

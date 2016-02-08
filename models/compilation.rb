@@ -2,11 +2,16 @@ require 'active_record'
 
 class Compilation < ActiveRecord::Base
     # バリデーション
-    # 全項目必須、IDは一意
+    VALID_NAME_REGEX = /[0-9a-z\_\-]{4,31}/i
     validates :compilation_name, presence: true
     validates :compilation_name, uniqueness: true
-    validates :compilation_name, exclusion: {in: %w(dashboard admin login logout register settings)}
+    validates :compilation_name, format: { with: VALID_NAME_REGEX }
+    validates :compilation_name, exclusion: { in: %w(dashboard admin login logout register settings) }
     validates :title, presence: true
+    validates :title, length: { in: 1..127 }
+    validates :description, presence: true
+    validates :description, length: { in: 1..1023 }
+    validates :requirement, length: { in: 0..1023 }
     validates :deadline, presence: true
     validate :date_cannot_be_in_the_past
 
@@ -32,7 +37,6 @@ class Compilation < ActiveRecord::Base
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def modify_information(values)
         modifications = values.reject { |k, v| !Compilation.column_names.include? k or v.empty? }
-        update_attributes modifications
-        save!
+        update! modifications
     end
 end

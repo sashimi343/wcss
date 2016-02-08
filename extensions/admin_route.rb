@@ -94,10 +94,10 @@ module AdminRoute
 
             begin
                 composer.modify_information params
+                redirect "/admin/composers/#{composer.registration_id}"
             rescue => e
                 session[:error_message] = e.message
-            ensure
-                redirect "/admin/composers/#{composer.registration_id}"
+                redirect "/admin/composers/#{reg_id}"
             end
         end
 
@@ -146,10 +146,10 @@ module AdminRoute
 
             begin
                 compilation.modify_information params
+                redirect "/admin/compilations/#{compilation.compilation_name}"
             rescue => e
                 session[:error_message] = e.message
-            ensure
-                redirect "/admin/compilations/#{compilation.compilation_name}"
+                redirect "/admin/compilations/#{compi_name}"
             end
         end
         
@@ -164,7 +164,7 @@ module AdminRoute
             rescue => e
                 session[:error_message] = e.message
             ensure
-                redirect "/admin/compilations/#{compilation.compilation_name}" 
+                redirect "/admin/compilations/#{compi_name}" 
             end
         end
     end
