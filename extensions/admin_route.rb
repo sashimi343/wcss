@@ -59,25 +59,22 @@ module AdminRoute
 
         # 作曲者の追加処理を行う
         base.post '/admin/composers' do
-            unless params[:password] == params[:password_confirmation]
-                session[:error_message] = 'The passwords you entered do not match'
+            begin
+                unless params[:password] == params[:password_confirmation]
+                    raise ArgumentError.new 'The passwords you entered do not match'
+                end
+
+                composer = Composer.create!(
+                    registration_id: params[:registration_id],
+                    password: params[:password],
+                    name: params[:name],
+                    contact: params[:contact]
+                )
+            rescue => e
+                session[:error_message] = e.message
+            ensure
                 redirect '/admin/composers'
             end
-
-            composer = Composer.new(
-                registration_id: params[:registration_id],
-                password: params[:password],
-                name: params[:name],
-                contact: params[:contact]
-            )
-
-            if composer.valid?
-                composer.save
-            else
-                session[:error_message] = composer.errors.messages
-            end
-
-            redirect '/admin/composers'
         end
 
         # 作曲者情報の表示と編集を行うページを表示する
@@ -108,7 +105,6 @@ module AdminRoute
             ensure
                 redirect "/admin/composers/#{composer.registration_id}"
             end
-
         end
 
         # コンピ一覧の表示とコンピ追加を行うページを表示する
@@ -144,6 +140,7 @@ module AdminRoute
             @page_title = @compilation.title
             @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
             @error_message = session[:error_message]   # 作成エラーがあれば表示
+            session[:error_message] = nil
             erb :manage_compilation
         end
 
