@@ -1,4 +1,8 @@
-<p><%= @compilation.description %></p>
+<p>
+<% @compilation.description.each_line do |line| %>
+    <%= line.chomp %><br />
+<% end %>
+</p>
 <h2>Requirements</h2>
 <ul>
 <% @compilation.requirement.each_line do |requirement| %>
