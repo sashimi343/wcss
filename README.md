@@ -30,6 +30,7 @@ $ bundle install --path vendor/bundle
 # Dropbox access token
 $ echo DROPBOX_ACCESS_TOKEN=<your own access token> >>.env
 $ heroku config:set DROPBOX_ACCESS_TOKEN=<your own access token>
+$ heroku config:set TZ=Asia/Tokyo
 
 # DB
 $ echo RACK_ENV=development >>.env
@@ -45,5 +46,6 @@ DATABASE=database
 
 $ git push heroku master
 $ heroku run rake db:migrate
+$ heroku run rake db:seed
 $ heroku open
 ```

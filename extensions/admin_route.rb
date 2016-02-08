@@ -3,7 +3,7 @@ require 'sinatra/base'
 module AdminRoute
     def self.registered(base)
         # ログインが必要なページ
-        %w(/admin /admin/composers /admin/composers/*).each do |route|
+        %w(/admin /admin/composers /admin/composers/* /admin/compilations /admin/compilations/*).each do |route|
             base.before route do
                 redirect '/admin/login' unless session[:admin_id]
             end
@@ -59,30 +59,27 @@ module AdminRoute
 
         # 作曲者の追加処理を行う
         base.post '/admin/composers' do
-            unless params[:password] == params[:password_confirmation]
-                session[:error_message] = 'The passwords you entered do not match'
+            begin
+                unless params[:password] == params[:password_confirmation]
+                    raise ArgumentError.new 'The passwords you entered do not match'
+                end
+
+                composer = Composer.create!(
+                    registration_id: params[:registration_id],
+                    password: params[:password],
+                    name: params[:name],
+                    contact: params[:contact]
+                )
+            rescue => e
+                session[:error_message] = e.message
+            ensure
                 redirect '/admin/composers'
             end
-
-            composer = Composer.new(
-                registration_id: params[:registration_id],
-                password: params[:password],
-                name: params[:name],
-                contact: params[:contact]
-            )
-
-            if composer.valid?
-                composer.save
-            else
-                session[:error_message] = composer.errors.messages
-            end
-
-            redirect '/admin/composers'
         end
 
         # 作曲者情報の表示と編集を行うページを表示する
-        base.get '/admin/composers/:user' do |user|
-            @composer = Composer.find_by registration_id: user
+        base.get '/admin/composers/:reg_id' do |reg_id|
+            @composer = Composer.find_by registration_id: reg_id
             halt 404 unless @composer
 
             @page_title = "#{@composer.name} (#{@composer.registration_id})"
@@ -91,24 +88,84 @@ module AdminRoute
             erb :composer
         end
 
-        base.post '/admin/composers/:user' do |user|
-            composer = Composer.find_by registration_id: user
+        base.post '/admin/composers/:reg_id' do |reg_id|
+            composer = Composer.find_by registration_id: reg_id
             halt 404 unless composer
 
             begin
-                composer.modify_information({
-                    registration_id: params[:registration_id],
-                    password: params[:password],
-                    password_confirmation: params[:password_confirmation],
-                    name: params[:name],
-                    contact: params[:contact]
-                })
+                composer.modify_information params
             rescue => e
                 session[:error_message] = e.message
             ensure
                 redirect "/admin/composers/#{composer.registration_id}"
             end
+        end
 
+        # コンピ一覧の表示とコンピ追加を行うページを表示する
+        base.get '/admin/compilations' do
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+
+            @page_title = 'Compilations'
+            @compilations = organizer.compilations if organizer
+            @error_message = session[:error_message]   # 作成エラーがあれば表示
+            session[:error_message] = nil
+            erb :compilations
+        end
+
+        # コンピの追加処理を行う
+        base.post '/admin/compilations' do
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+
+            begin
+                organizer.hold_new_compilation params
+            rescue => e
+                session[:error_message] = e.message
+            ensure
+                redirect '/admin/compilations'
+            end
+        end
+
+        # コンピ情報管理画面を表示する
+        base.get '/admin/compilations/:compi_name' do |compi_name|
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+            @compilation = organizer.compilations.find_by(compilation_name: compi_name) if organizer
+            halt 404 unless @compilation
+
+            @page_title = @compilation.title
+            @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
+            @error_message = session[:error_message]   # 作成エラーがあれば表示
+            session[:error_message] = nil
+            erb :manage_compilation
+        end
+
+        # コンピ情報の編集を行う
+        base.post '/admin/compilations/:compi_name' do |compi_name|
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+            compilation = organizer.compilations.find_by(compilation_name: compi_name) if organizer
+            halt 404 unless compilation
+
+            begin
+                compilation.modify_information params
+            rescue => e
+                session[:error_message] = e.message
+            ensure
+                redirect "/admin/compilations/#{compilation.compilation_name}"
+            end
+        end
+        
+        # コンピへの作曲者追加の処理を行う
+        base.post '/admin/compilations/:compi_name/participations' do |compi_name|
+            composer = Composer.find_by registration_id: params[:registration_id]
+            compilation = Compilation.find_by compilation_name: compi_name
+            halt 400 if composer.nil? or compilation.nil?
+
+            begin
+                composer.join_compilation compilation
+            rescue => e
+                session[:error_message] = e.message
+            ensure
+                redirect "/admin/compilations/#{compilation.compilation_name}" 
+            end
         end
     end
 end
