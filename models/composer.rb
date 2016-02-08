@@ -2,10 +2,12 @@ require 'active_record'
 
 class Composer < ActiveRecord::Base
     # バリデーション
-    # contact以外の項目は全て必須、IDは一意
+    VALID_ID_REGEX = /[0-9a-z\_\-]{4,31}/
     validates :registration_id, presence: true
     validates :registration_id, uniqueness: true
+    validates :registration_id, format: { with: VALID_ID_REGEX }
     validates :name, presence: true
+    validates :name, length: { in: 1..63 }
 
     # 作曲者は複数のコンピに参加する
     has_many :participations
