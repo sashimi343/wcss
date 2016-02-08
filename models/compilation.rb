@@ -24,4 +24,15 @@ class Compilation < ActiveRecord::Base
             errors.add :deadline, 'is the past date and time'
         end
     end
+
+    # 入力された値について、登録情報の更新を行う
+    # ==== Args
+    # _values_ :: 変更後の値を格納したハッシュ。変更しない項目のキーに対応する値はnil。
+    # ==== Raise
+    # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
+    def modify_information(values)
+        modifications = values.reject { |k, v| !Compilation.column_names.include? k or v.empty? }
+        update_attributes modifications
+        save!
+    end
 end

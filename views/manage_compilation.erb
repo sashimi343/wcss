@@ -13,7 +13,6 @@
         <tr>
             <th>ID</th>
             <th>composer name</th>
-            <th>contact</th>
             <th>submitted at</th>
             <th>artist</th>
             <th>song title</th>
@@ -26,7 +25,6 @@
         <tr>
             <td><%= participation.composer.registration_id %></td>
             <td><%= participation.composer.name %></td>
-            <td><%= participation.composer.contact %></td>
             <td><%= participation.submission %></td>
             <td><%= participation.artist %></td>
             <td><%= participation.song_title %></td>
@@ -36,14 +34,39 @@
     <% end %>
     </tbody>
 </table>
-<h2>Add a composer</h2>
+<h2>Modify compilation</h2>
 <form method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
     <select name="registration_id">
     <% @composers.each do |composer| %>
         <option value="<%= composer.registration_id %>"><%= composer.name %> (<%= composer.registration_id %>)</option>
     <% end %>
     </select>
-    <input type="submit" value="add" />
+    <input type="submit" value="participate" />
+</form>
+<form method="POST" action="">
+    <p>
+    <label for="compilation_name">ID: </label>
+    <input type="text" name="compilation_name" />
+    </p>
+    <p>
+    <label for="title">title: </label>
+    <input type="text" name="title" />
+    </p>
+    <p>
+    <label for="description">description: </label>
+    <textarea name="description" cols="40" rows="10"><%= @compilation.description %></textarea>
+    </p>
+    <p>
+    <label for="requirement">requirement (newline delimited): </label>
+    <textarea name="requirement" cols="40" rows="10"><%= @compilation.requirement %></textarea>
+    </p>
+    <p>
+    <label for="deadline">deadline: </label>
+    <input type="datetime-local" name="deadline" value="<%= @compilation.deadline.strftime "%Y-%m-%dT%H:%M" %>" />
+    </p>
+    <p>
+    <input type="submit" value="modify" />
+    </p>
 </form>
 <p><%= @error_message %></p>
 <a href="/admin/compilations">Back</a>

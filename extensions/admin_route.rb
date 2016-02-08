@@ -138,9 +138,20 @@ module AdminRoute
             erb :manage_compilation
         end
 
-        # TODO: コンピ情報の編集機能
-        #base.get '/admin/compilations/:name' do |name|
-        #end
+        # コンピ情報の編集を行う
+        base.post '/admin/compilations/:compi_name' do |compi_name|
+            organizer = Administrator.find_by registration_id: session[:admin_id]
+            compilation = organizer.compilations.find_by(compilation_name: compi_name) if organizer
+            halt 404 unless compilation
+
+            begin
+                compilation.modify_information params
+            rescue => e
+                session[:error_message] = e.message
+            ensure
+                redirect "/admin/compilations/#{compilation.compilation_name}"
+            end
+        end
         
         # コンピへの作曲者追加の処理を行う
         base.post '/admin/compilations/:compi_name/participations' do |compi_name|
