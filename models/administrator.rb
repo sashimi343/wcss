@@ -2,7 +2,7 @@ require 'active_record'
 
 class Administrator < ActiveRecord::Base
     # バリデーション
-    VALID_ID_REGEX = /[0-9a-z\_\-]{4,31}/
+    VALID_ID_REGEX = /[0-9a-z\_\-]{4,31}/i
     validates :registration_id, presence: true
     validates :registration_id, uniqueness: true
     validates :registration_id, format: { with: VALID_ID_REGEX }
