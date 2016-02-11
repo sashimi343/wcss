@@ -25,9 +25,8 @@ set :session_secret, 'himitsu desuno'
 register AdminRoute, UserRoute
 
 get '/' do
-    @page_title = 'Sample Page'
-    @text = '<p>Hello, Heroku?</p>'
-    @text << '<p><a href="/login">Login</a></p>'
-    @text << '<p><a href="/admin/login">Admin</a></p>'
-    erb :index
+    @page_title = 'WCSS alpha'
+    @compilations = Compilation.all.select { |e| e.deadline >= Time.current }
+    @past_compilations = Compilation.all.select { |e| e.deadline < Time.current }
+    erb :top
 end
