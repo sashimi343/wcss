@@ -24,9 +24,19 @@ enable :sessions
 set :session_secret, 'himitsu desuno'
 register AdminRoute, UserRoute
 
+# トップページを表示する
 get '/' do
     @page_title = 'WCSS alpha'
     @compilations = Compilation.all.select { |e| e.deadline >= Time.current }
     @past_compilations = Compilation.all.select { |e| e.deadline < Time.current }
     erb :top
+end
+
+# コンピ情報を表示する
+get '/:compi_name' do |compi_name|
+    @compilation = Compilation.find_by compilation_name: compi_name
+    halt 404 unless @compilation
+
+    @page_title = @compilation.title
+    erb :compilation
 end
