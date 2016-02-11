@@ -1,0 +1,57 @@
+<p><%= @text %></p>
+<h2>Participating compilations</h2>
+<table>
+    <thead>
+        <tr><th>title</th><th>deadline</th></tr>
+    </thead>
+    <tbody>
+    <% @compilations.each do |compilation| %>
+        <tr>
+            <td><%= compilation.title %></td>
+            <td><%= compilation.deadline %></td>
+            <td><a href="/<%= compilation.compilation_name %>">detail</a></td>
+            <td><a href="/<%= compilation.compilation_name %>/submit">submit</a></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+<h2>Settings</h2>
+<form method="POST" action="">
+    <table>
+        <thead>
+            <tr><th>field</th><th>current value</th><th>new value</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td><%= @composer.registration_id %></td>
+                <td><input type="text" name="registration_id" /></td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td><%= @composer.password_digest %></td>
+                <td>
+                    <input type="password" name="password" />
+                    <input type="password" name="password_confirmation" />
+                </td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td><%= @composer.name %></td>
+                <td><input type="text" name="name" /></td>
+            </tr>
+            <tr>
+                <td>contact</td>
+                <td><%= @composer.contact %></td>
+                <td><input type="text" name="contact" /></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="modify" />
+</form>
+<p><%= @error_message %></p>
+<form method="POST" action="/logout">
+    <p>
+    <input type="submit" value="logout" />
+    </p>
+</form>

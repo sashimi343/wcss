@@ -6,6 +6,7 @@ require './models/composer'
 require './models/compilation'
 require './models/participation'
 require './extensions/admin_route'
+require './extensions/user_route'
 
 require 'dotenv'
 Dotenv.load
@@ -21,7 +22,7 @@ DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 enable :sessions
 set :session_secret, 'himitsu desuno'
-register AdminRoute
+register AdminRoute, UserRoute
 
 get '/' do
     @page_title = 'Sample Page'
