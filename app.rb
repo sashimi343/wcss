@@ -26,6 +26,8 @@ register AdminRoute, UserRoute
 
 get '/' do
     @page_title = 'Sample Page'
-    @text = 'Hello, Heroku?'
+    @text = '<p>Hello, Heroku?</p>'
+    @text << '<p><a href="/login">Login</a></p>'
+    @text << '<p><a href="/admin/login">Admin</a></p>'
     erb :index
 end

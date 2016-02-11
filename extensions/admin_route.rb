@@ -64,7 +64,7 @@ module AdminRoute
         # ログアウト処理を行う
         base.post '/admin/logout' do
             session[:admin_id] = nil
-            redirect '/admin/login'
+            redirect '/'
         end
 
         # 作曲者一覧の表示と新規登録フォームを表示する
