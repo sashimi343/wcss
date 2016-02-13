@@ -6,7 +6,7 @@ class Participation < ActiveRecord::Base
     validates :artist, length: { in: 1..63 }
     validates :song_title, presence: true
     validates :song_title, length: { in: 1..63 }
-    validates :comment, length: { in: 0..1023 }
+    validates :comment, length: { maximum: 1023 }
 
     # 参加するのはある作曲者
     belongs_to :composer

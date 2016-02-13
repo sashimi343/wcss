@@ -42,4 +42,29 @@ class Composer < ActiveRecord::Base
 
         compilation.composers << self
     end
+
+    # コンピに楽曲を提出する
+    # ==== Args
+    # _compilation_ :: 楽曲を提出するコンピのモデル
+    # _wav_file :: 提出するwavファイルのフルパス
+    # _song_title :: 曲名
+    # _artist_ :: アーティスト名
+    # _comment_ :: 曲コメント (省略可)
+    # ==== Raise
+    # ArgumentError :: 作曲者がコンピに参加していない場合に発生
+    def submit_song(compilation, song_title, artist, wav_file, comment)
+        participation = compilation.participations.find_by composer_id: id
+        unless participation
+            raise ArgumentError.new "Composer #{name} is not participate in compilation #{compilation.title}"
+        end
+
+        # TODO: Dropboxにファイルをアップロードする
+
+        # 楽曲情報を記録する
+        participation.song_title = song_title
+        participation.artist = artist
+        (participation.comment = comment) unless comment.empty?
+        participation.submission = Time.current
+        participation.save!
+    end
 end
