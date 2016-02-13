@@ -40,3 +40,19 @@ get '/:compi_name' do |compi_name|
     @page_title = @compilation.title
     erb :compilation
 end
+
+# コンピに楽曲を提出する (要ユーザログイン)
+get '/:compi_name/submit' do |compi_name|
+    @compilation = Compilation.find_by compilation_name: compi_name
+    halt 404 unless @compilation
+
+    # 参加者のみ提出フォームを利用できる
+    if @compilation.composers.exists? registration_id: session[:user_id]
+        @page_title = "Submission page for #{@compilation.title}"
+        erb :submission
+    else
+        @page_title = 'Permission denied'
+        @text = "You are not participant of #{@compilation.title}"
+        erb :index
+    end
+end
