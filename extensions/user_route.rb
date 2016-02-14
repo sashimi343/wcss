@@ -19,7 +19,7 @@ module UserRoute
 
             @page_title = 'Dashboard'
             @text = "Hello, #{session[:user_id]}"
-            @compilations = @composer.compilations
+            @participations = @composer.participations
             @error_message = session[:error_message]  # ユーザ情報編集エラーがあればそれを表示
             session[:error_message] = nil             # エラー情報のリセット
             erb :dashboard

@@ -52,6 +52,7 @@ class Composer < ActiveRecord::Base
     # _comment_ :: 曲コメント (省略可)
     # ==== Raise
     # ArgumentError :: 作曲者がコンピに参加していない場合に発生
+    # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def submit_song(compilation, song_title, artist, wav_file, comment)
         participation = compilation.participations.find_by composer_id: id
         unless participation
