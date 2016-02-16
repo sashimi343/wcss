@@ -59,7 +59,9 @@ class Composer < ActiveRecord::Base
             raise ArgumentError.new "Composer #{name} is not participate in compilation #{compilation.title}"
         end
 
-        # TODO: Dropboxにファイルをアップロードする
+        # Dropboxに曲ファイルをアップロードする
+        #dropbox = DropboxClient.new ENV['DROPBOX_ACCESS_TOKEN']
+        #dropbox.put_file "#{compilation.compilation_name}/#{participation.id}_#{registration_id}", wav_file
 
         # 楽曲情報を記録する
         participation.song_title = song_title
