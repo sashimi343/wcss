@@ -36,7 +36,12 @@ class Compilation < ActiveRecord::Base
     # ==== Raise
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def modify_information(values)
+        old_compilation_name = compilation_name
         modifications = values.reject { |k, v| !Compilation.column_names.include? k or v.empty? }
         update! modifications
+
+        # 提出曲用のディレクトリ名も変更する
+        dropbox = DropboxClient.new ENV['DROPBOX_ACCESS_TOKEN']
+        dropbox.file_move old_compilation_name, compilation_name
     end
 end
