@@ -68,7 +68,10 @@ post '/:compi_name/submit' do |compi_name|
 
     # 楽曲提出の処理を行う
     begin
-        composer.submit_song compilation, params[:song_title], params[:artist], '/path/to/wav', params[:comment]
+        # ファイルの存在確認
+        raise IOError.new('No wav file specified') unless params.key? 'wav_file'
+
+        composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
     rescue => e
         session[:error_message] = e.message
     ensure
