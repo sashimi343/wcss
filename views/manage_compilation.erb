@@ -33,7 +33,7 @@
             <td><%= participation.artist %></td>
             <td><%= participation.song_title %></td>
             <td><%= participation.comment %></td>
-            <td><a href="#">TODO: download from Dropbox</a></td>
+            <td><a href="<%= participation.download_url %>">Download</a></td>
         </tr>
     <% end %>
     </tbody>
