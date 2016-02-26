@@ -64,9 +64,14 @@ class Composer < ActiveRecord::Base
         wav_file_size = ('%.2f' % (wav_file.size.to_f / 2**20)).to_f  # MiB
         raise IOError.new "Song file exceeds size limit (#{wav_file_size} MiB > 200 MiB)" if wav_file_size > 200.0
 
-        # Dropboxに曲ファイルをアップロードする (古いファイルは上書きする)
+        # ユーザのアップロード済みファイルを削除する (ユーザID変更対策)
         dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
-        dropbox.put_file "#{compilation.compilation_name}/#{participation.id}_#{registration_id}.wav", wav_file, true
+        dropbox.search(compilation.compilation_name, "#{participation.id}_").each do |metadata|
+            dropbox.file_delete metadata['path']
+        end
+
+        # Dropboxに曲ファイルをアップロードする (古いファイルは上書きする)
+        dropbox.put_file "#{compilation.compilation_name}/#{participation.id}_#{registration_id}.wav", wav_file
 
         # 楽曲情報を記録する
         participation.song_title = song_title
