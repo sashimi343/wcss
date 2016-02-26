@@ -50,7 +50,7 @@ class Administrator < ActiveRecord::Base
         )
 
         # コンピ楽曲保存用のディレクトを作成する
-        dropbox = DropboxClient.new ENV['DROPBOX_ACCESS_TOKEN']
+        dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
         dropbox.file_create_folder compilation.compilation_name
     end
 end

@@ -41,7 +41,7 @@ class Compilation < ActiveRecord::Base
         update! modifications
 
         # 提出曲用のディレクトリ名も変更する
-        dropbox = DropboxClient.new ENV['DROPBOX_ACCESS_TOKEN']
+        dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
         dropbox.file_move old_compilation_name, compilation_name
     end
 end
