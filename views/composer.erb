@@ -1,36 +1,4 @@
+<h1><%= @composer.name %> (<%= @composer.registration_id %>)</h1>
 <h2>Information</h2>
-<form method="POST" action="">
-    <table>
-        <thead>
-            <tr><th>field</th><th>current value</th><th>new value</th></tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ID</td>
-                <td><%= @composer.registration_id %></td>
-                <td><input type="text" name="registration_id" /></td>
-            </tr>
-            <tr>
-                <td>password</td>
-                <td><%= @composer.password_digest %></td>
-                <td>
-                    <input type="password" name="password" />
-                    <input type="password" name="password_confirmation" />
-                </td>
-            </tr>
-            <tr>
-                <td>name</td>
-                <td><%= @composer.name %></td>
-                <td><input type="text" name="name" /></td>
-            </tr>
-            <tr>
-                <td>contact</td>
-                <td><%= @composer.contact %></td>
-                <td><input type="text" name="contact" /></td>
-            </tr>
-        </tbody>
-    </table>
-    <input type="submit" value="modify" />
-</form>
-<p><%= @error_message %></p>
+<%= erb :modify_composer, layout: false %>
 <p><a href="/admin/composers">Back</a></p>
