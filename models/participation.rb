@@ -23,7 +23,11 @@ class Participation < ActiveRecord::Base
         path = "#{compilation.compilation_name}/#{id}_#{composer.registration_id}.wav"
         dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
 
-        media = dropbox.media path
-        media ? "#{media['url']}?dl=1" : '#'
+        begin
+            media = dropbox.media path
+            media['url']
+        rescue => e
+            '#'
+        end
     end
 end

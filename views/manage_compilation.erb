@@ -38,6 +38,7 @@
     <% end %>
     </tbody>
 </table>
+<p><a href="<%= @compilation.download_all_url %>" target="_blank">Download All</a></p>
 <h2>Modify compilation</h2>
 <form method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
     <select name="registration_id">

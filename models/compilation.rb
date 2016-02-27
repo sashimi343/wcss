@@ -44,4 +44,20 @@ class Compilation < ActiveRecord::Base
         dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
         dropbox.file_move old_compilation_name, compilation_name
     end
+
+    # 全曲ダウンロード用URLを出力する
+    # ==== Return
+    # URL :: コンピ楽曲提出ディレクトリのURL
+    # '#' :: 提出用ディレクトリがない場合
+    def download_all_url
+        path = "#{compilation_name}/"
+        dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
+
+        begin
+            share = dropbox.shares path
+            share['url']
+        rescue => e
+            '#'
+        end
+    end
 end
