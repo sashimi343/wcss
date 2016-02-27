@@ -16,30 +16,38 @@
     </tbody>
 </table>
 <h2>Add new Composer</h2>
-<form method="POST" action="">
-    <p>
-    <label for="registration_id">ID: </label>
-    <input type="text" name="registration_id" />
-    </p>
-    <p>
-    <label for="password">password: </label>
-    <input type="password" name="password" />
-    </p>
-    <p>
-    <label for="password_confirmation">password (confirmation): </label>
-    <input type="password" name="password_confirmation" />
-    </p>
-    <p>
-    <label for="name">name: </label>
-    <input type="text" name="name" />
-    </p>
-    <p>
-    <label for="contact">contact (optional): </label>
-    <input type="text" name="contact" />
-    </p>
-    <p>
-    <input type="submit" value="add" />
-    </p>
+<form class="form-horizontal" method="POST" action="">
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="registration_id">ID: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="registration_id" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="password">password: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="password" name="password" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="password_confirmation">password (confirmation): </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="password" name="password_confirmation" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="name">name: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="name" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="contact">contact (optional): </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="contact" />
+        </div>
+    </div>
+    <input class="col-sm-offset-3" type="submit" value="add" />
 </form>
 <p><%= @error_message %></p>
 <p><a href="/admin">Back</a></p>

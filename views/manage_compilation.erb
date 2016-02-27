@@ -26,40 +26,50 @@
     <% end %>
     </tbody>
 </table>
-<p><a href="<%= @compilation.download_all_url %>" target="_blank">Download All</a></p>
-<h2>Modify compilation</h2>
-<form method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
-    <select name="registration_id">
-    <% @composers.each do |composer| %>
-        <option value="<%= composer.registration_id %>"><%= composer.name %> (<%= composer.registration_id %>)</option>
-    <% end %>
-    </select>
+<form class="form-inline" method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
+    <div class="form-group">
+        <select class="form-control" name="registration_id">
+        <% @composers.each do |composer| %>
+            <option value="<%= composer.registration_id %>"><%= composer.name %> (<%= composer.registration_id %>)</option>
+        <% end %>
+        </select>
+    </div>
     <input type="submit" value="participate" />
 </form>
-<form method="POST" action="">
-    <p>
-    <label for="compilation_name">ID: </label>
-    <input type="text" name="compilation_name" />
-    </p>
-    <p>
-    <label for="title">title: </label>
-    <input type="text" name="title" />
-    </p>
-    <p>
-    <label for="description">description: </label>
-    <textarea name="description" cols="40" rows="10"><%= @compilation.description %></textarea>
-    </p>
-    <p>
-    <label for="requirement">requirement (newline delimited): </label>
-    <textarea name="requirement" cols="40" rows="10"><%= @compilation.requirement %></textarea>
-    </p>
-    <p>
-    <label for="deadline">deadline: </label>
-    <input type="datetime-local" name="deadline" value="<%= @compilation.deadline.strftime "%Y-%m-%dT%H:%M" %>" />
-    </p>
-    <p>
-    <input type="submit" value="modify" />
-    </p>
+<p><a href="<%= @compilation.download_all_url %>" target="_blank">Download All</a></p>
+<h2>Modify compilation</h2>
+<form class="form-horizontal" method="POST" action="">
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="compilation_name">ID: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="compilation_name" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="title">title: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="title" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="description">description: </label>
+        <div class="col-sm-9">
+            <textarea class="form-control" name="description" cols="40" rows="10"><%= @compilation.description %></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="requirement">requirement (newline delimited): </label>
+        <div class="col-sm-9">
+            <textarea class="form-control" name="requirement" cols="40" rows="10"><%= @compilation.requirement %></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="deadline">deadline: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="datetime-local" name="deadline" value="<%= @compilation.deadline.strftime "%Y-%m-%dT%H:%M" %>" />
+        </div>
+    </div>
+    <input class="col-sm-offset-3" type="submit" value="modify" />
 </form>
 <p><%= @error_message %></p>
 <a href="/admin/compilations">Back</a>

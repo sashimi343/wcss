@@ -1,22 +1,28 @@
-<form method="POST" action="" enctype="multipart/form-data">
-    <p>
-    <label for="wav_file">Song file (.wav): </label>
-    <input type="file" name="wav_file" accept="audio/wav" required />
-    </p>
-    <p>
-    <label for="song_title">Song title: </label>
-    <input type="text" name="song_title" />
-    </p>
-    <p>
-    <label for="artist">Artist: </label>
-    <input type="text" name="artist" />
-    </p>
-    <p>
-    <label for="comment">comment (optional): </label>
-    <input type="text" name="comment" />
-    </p>
-    <p>
-    <input type="submit" value="submit" />
-    </p>
+<form class="form-horizontal" method="POST" action="" enctype="multipart/form-data">
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="wav_file">Song file (.wav): </label>
+        <div class="col-sm-9">
+            <input type="file" name="wav_file" accept="audio/wav" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="song_title">Song title: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="song_title" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="artist">Artist: </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="artist" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3" for="comment">comment (optional): </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="comment" />
+        </div>
+    </div>
+    <input class="col-sm-offset-3" type="submit" value="submit" />
 </form>
 <%= @error_message %>
