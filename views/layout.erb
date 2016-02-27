@@ -16,8 +16,17 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">WCSS Alpha</a>
             </div>
+            <ul class="nav navbar-nav">
+            <% if session.key? 'user_id' %>
+                <li><a href="/dashboard">Dashboard</a></li>
+            <% else %>
+                <li><a href="/login">Login</a></li>
+            <% end %>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Menu</a></li>
+            <% if session.key? 'admin_id' %>
+                <li><a href="/admin">Admin Page</a></li>
+            <% end %>
             </ul>
         </div>
     </nav>
