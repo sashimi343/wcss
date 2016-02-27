@@ -33,11 +33,12 @@
             <td><%= participation.artist %></td>
             <td><%= participation.song_title %></td>
             <td><%= participation.comment %></td>
-            <td><a href="#">TODO: download from Dropbox</a></td>
+            <td><a href="<%= participation.download_url %>">Download</a></td>
         </tr>
     <% end %>
     </tbody>
 </table>
+<p><a href="<%= @compilation.download_all_url %>" target="_blank">Download All</a></p>
 <h2>Modify compilation</h2>
 <form method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
     <select name="registration_id">

@@ -48,5 +48,9 @@ class Administrator < ActiveRecord::Base
             requirement: values[:requirement],
             deadline: Time.zone.parse(values[:deadline])
         )
+
+        # コンピ楽曲保存用のディレクトを作成する
+        dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
+        dropbox.file_create_folder compilation.compilation_name
     end
 end

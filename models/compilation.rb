@@ -2,7 +2,7 @@ require 'active_record'
 
 class Compilation < ActiveRecord::Base
     # バリデーション
-    VALID_NAME_REGEX = /[0-9a-z\_\-]{4,31}/i
+    VALID_NAME_REGEX = /[0-9a-z\_\-]{4,31}/
     validates :compilation_name, presence: true
     validates :compilation_name, uniqueness: true
     validates :compilation_name, format: { with: VALID_NAME_REGEX }
@@ -36,7 +36,28 @@ class Compilation < ActiveRecord::Base
     # ==== Raise
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def modify_information(values)
+        old_compilation_name = compilation_name
         modifications = values.reject { |k, v| !Compilation.column_names.include? k or v.empty? }
         update! modifications
+
+        # 提出曲用のディレクトリ名も変更する
+        dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
+        dropbox.file_move old_compilation_name, compilation_name
+    end
+
+    # 全曲ダウンロード用URLを出力する
+    # ==== Return
+    # URL :: コンピ楽曲提出ディレクトリのURL
+    # '#' :: 提出用ディレクトリがない場合
+    def download_all_url
+        path = "#{compilation_name}/"
+        dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
+
+        begin
+            share = dropbox.shares path
+            share['url']
+        rescue => e
+            '#'
+        end
     end
 end

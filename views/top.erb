@@ -1,0 +1,35 @@
+<h2>Login</h2>
+<ul>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/admin/login">Admin</a></li>
+</ul>
+<h2>Compilations (now in session)</h2>
+<table>
+    <thead>
+        <tr><th>title</th><th>deadline</th><th></th></tr>
+    </thead>
+    <tbody>
+    <% @compilations.each do |compilation| %>
+        <tr>
+            <td><%= compilation.title %></td>
+            <td><%= compilation.deadline %></td>
+            <td><a href="/<%= compilation.compilation_name %>">detail</a></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+<h2>Past compilations</h2>
+<table>
+    <thead>
+        <tr><th>title</th><th>deadline</th><th></th></tr>
+    </thead>
+    <tbody>
+    <% @past_compilations.each do |compilation| %>
+        <tr>
+            <td><%= compilation.title %></td>
+            <td><%= compilation.deadline %></td>
+            <td><a href="/<%= compilation.compilation_name %>">detail</a></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>

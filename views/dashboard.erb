@@ -2,15 +2,26 @@
 <h2>Participating compilations</h2>
 <table>
     <thead>
-        <tr><th>title</th><th>deadline</th></tr>
+        <tr>
+            <th>compilation title</th>
+            <th>deadline</th>
+            <th>submission</th>
+            <th>song title</th>
+            <th>artist</th>
+            <th>comment</th>
+        </tr>
     </thead>
     <tbody>
-    <% @compilations.each do |compilation| %>
+    <% @participations.each do |participation| %>
         <tr>
-            <td><%= compilation.title %></td>
-            <td><%= compilation.deadline %></td>
-            <td><a href="/<%= compilation.compilation_name %>">detail</a></td>
-            <td><a href="/<%= compilation.compilation_name %>/submit">submit</a></td>
+            <td><%= participation.compilation.title %></td>
+            <td><%= participation.compilation.deadline %></td>
+            <td><%= participation.submission %></td>
+            <td><%= participation.song_title %></td>
+            <td><%= participation.artist %></td>
+            <td><%= participation.comment %></td>
+            <td><a href="/<%= participation.compilation.compilation_name %>">detail</a></td>
+            <td><a href="/<%= participation.compilation.compilation_name %>/submit">submit</a></td>
         </tr>
     <% end %>
     </tbody>
