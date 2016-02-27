@@ -1,16 +1,4 @@
-<p>
-<% @compilation.description.each_line do |line| %>
-    <%= line.chomp %><br />
-<% end %>
-</p>
-<h2>Requirements</h2>
-<ul>
-<% @compilation.requirement.each_line do |requirement| %>
-    <li><%= requirement %></li>
-<% end %>
-</ul>
-<h2>Deadline</h2>
-<p><%= @compilation.deadline %></p>
+<%= erb :compilation_info, layout: false %>
 <h2>Participations</h2>
 <table>
     <thead>
