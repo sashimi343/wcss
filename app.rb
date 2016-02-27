@@ -26,7 +26,7 @@ register AdminRoute, UserRoute
 
 # トップページを表示する
 get '/' do
-    @page_title = 'WCSS alpha'
+    @page_title = 'Index'
     @compilations = Compilation.all.select { |e| e.deadline >= Time.current }
     @past_compilations = Compilation.all.select { |e| e.deadline < Time.current }
     erb :top
