@@ -11,7 +11,7 @@ module AdminRoute
 
         # 管理者用ページを表示する
         base.get '/admin' do
-            @page_title = 'Administrator Page'
+            @page_title = 'Administrator page'
             @text = "Hello, #{session[:admin_id]}"
             @error_message = session[:error_message]  # パスワード変更エラーがあればそれを表示
             session[:error_message] = nil             # エラー情報のリセット
@@ -40,7 +40,7 @@ module AdminRoute
             # ログイン済みの場合、管理者用ページにリダイレクトする
             redirect '/admin' if session[:admin_id]
 
-            @page_title = 'Administrator Login'
+            @page_title = 'Administrator login'
             @error_message = session[:error_message]  # ログインエラーがあればそれを表示
             session[:error_message] = nil             # エラー情報のリセット
             erb :login
