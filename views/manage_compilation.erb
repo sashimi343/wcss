@@ -26,6 +26,8 @@
     <% end %>
     </tbody>
 </table>
+<p><a class="btn btn-primary" href="<%= @compilation.download_all_url %>" target="_blank">Download all</a></p>
+<h2>Add participant</h2>
 <form class="form-inline" method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
     <div class="form-group">
         <select class="form-control" name="registration_id">
@@ -36,7 +38,6 @@
     </div>
     <input class="btn btn-primary" type="submit" value="participate" />
 </form>
-<p><a href="<%= @compilation.download_all_url %>" target="_blank">Download all</a></p>
 <h2>Modify compilation</h2>
 <form class="form-horizontal" method="POST" action="">
     <div class="form-group">
