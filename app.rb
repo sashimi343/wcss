@@ -73,9 +73,12 @@ post '/:compi_name/submit' do |compi_name|
         raise IOError.new('No wav file specified') unless params.key? 'wav_file'
 
         composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
+
+        {
+            message: 'Your track has been submitted successfully',
+            redirect: '/dashboard'
+        }.to_json
     rescue => e
-        session[:error_message] = e.message
-    ensure
-        redirect "/#{compi_name}/submit"
+        { message: e.message }.to_json
     end
 end

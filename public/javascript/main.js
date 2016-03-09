@@ -42,4 +42,27 @@ $("#modify-composer button").on("click", function () {
     });
 });
 
+// 楽曲提出処理
+$("#submit button").on("click", function () {
+    // フォームパラメータの取得・設定
+    var fd = new FormData();
+    if($("#submit [name=wav_file]").val() !== "") {
+        fd.append("wav_file", $("#submit [name=wav_file]").prop("files")[0]);
+    }
+    fd.append("song_title", $("#submit [name=song_title]").val());
+    fd.append("artist", $("#submit [name=artist]").val());
+    fd.append("comment", $("#submit [name=comment]").val());
+
+    $.ajax({
+        url: location.toString(),
+        type: "POST",
+        dataType: "json",
+        data: fd,
+        processData: false,
+        contentType: false,
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+});
+
 });
