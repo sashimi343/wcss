@@ -90,4 +90,29 @@ $("#change-password button").on("click", function () {
     });
 });
 
+// 作曲者の追加処理
+$("#add-composer button").on("click", function () {
+    // フォームパラメータの取得
+    var registration_id = $("#add-composer [name=registration_id]").val();
+    var password = $("#add-composer [name=password]").val();
+    var password_confirmation = $("#add-composer [name=password_confirmation]").val();
+    var name = $("#add-composer [name=name]").val();
+    var contact = $("#add-composer [name=contact]").val();
+
+    $.ajax({
+        url: location.toString(),
+        type: "POST",
+        dataType: "json",
+        data: {
+            registration_id: registration_id,
+            password: password,
+            password_confirmation: password_confirmation,
+            name: name,
+            contact: contact
+        },
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+});
+
 });

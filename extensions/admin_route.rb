@@ -65,8 +65,6 @@ module AdminRoute
         base.get '/admin/composers' do
             @page_title = 'Composers'
             @composers = Composer.all
-            @error_message = session[:error_message]   # 作成エラーがあれば表示
-            session[:error_message] = nil
             erb :composers
         end
 
@@ -83,10 +81,9 @@ module AdminRoute
                     name: params[:name],
                     contact: params[:contact]
                 )
+                { message: 'A new composer has been added' }.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/admin/composers'
+                { message: e.message }.to_json
             end
         end
 

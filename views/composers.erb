@@ -16,7 +16,7 @@
     </tbody>
 </table>
 <h2>Add new composer</h2>
-<form class="form-horizontal" method="POST" action="">
+<form id="add-composer" class="form-horizontal">
     <div class="form-group">
         <label class="control-label col-sm-3" for="registration_id">ID </label>
         <div class="col-sm-9">
@@ -47,7 +47,6 @@
             <input class="form-control" type="text" name="contact" />
         </div>
     </div>
-    <input class="btn btn-primary col-sm-offset-3" type="submit" value="add" />
+    <button class="btn btn-primary col-sm-offset-3" type="button">add</button>
 </form>
-<p><%= @error_message %></p>
 <p><a class="btn btn-default" href="/admin">Back</a></p>
