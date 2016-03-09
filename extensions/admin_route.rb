@@ -41,8 +41,6 @@ module AdminRoute
             redirect '/admin' if session[:admin_id]
 
             @page_title = 'Administrator login'
-            @error_message = session[:error_message]  # ログインエラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :login
         end
 

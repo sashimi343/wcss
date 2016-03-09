@@ -46,8 +46,6 @@ module UserRoute
             redirect '/dashboard' if session[:user_id]
 
             @page_title = 'Login'
-            @error_message = session[:error_message]  # ログインエラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :login
         end
 
