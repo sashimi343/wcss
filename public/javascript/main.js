@@ -25,6 +25,7 @@ $("#modify-composer button").on("click", function () {
     var registration_id = $("#modify-composer [name=registration_id]").val();
     var password = $("#modify-composer [name=password]").val();
     var password_confirmation = $("#modify-composer [name=password_confirmation]").val();
+    var name = $("#modify-composer [name=name]").val();
     var contact = $("#modify-composer [name=contact]").val();
 
     $.ajax({
@@ -35,6 +36,7 @@ $("#modify-composer button").on("click", function () {
             registration_id: registration_id,
             password: password,
             password_confirmation: password_confirmation,
+            name: name,
             contact: contact
         },
         success: ajaxSuccessCallback,
