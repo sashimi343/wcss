@@ -58,11 +58,10 @@ module UserRoute
             if composer and composer.authenticate params[:password]
                 # 認証成功
                 session[:user_id] = params[:registration_id]
-                redirect '/dashboard'
+                { redirect: '/dashboard' }.to_json
             else
                 # 認証失敗
-                session[:error_message] = 'Incorrect ID or password'
-                redirect '/login'
+                { message: 'Incorrect ID or password' }.to_json
             end
         end
 

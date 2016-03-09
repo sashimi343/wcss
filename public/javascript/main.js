@@ -1,5 +1,24 @@
 $(function () {
 
+// ログイン処理
+$("#login button").on("click", function () {
+    // フォームパラメータの取得
+    var registration_id = $("#login [name=registration_id]").val();
+    var password = $("#login [name=password]").val();
+
+    $.ajax({
+        url: location.toString(),
+        type: "POST",
+        dataType: "json",
+        data: {
+            registration_id: registration_id,
+            password: password,
+        },
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+});
+
 // 作曲者情報の編集処理
 $("#modify-composer button").on("click", function () {
     // フォームパラメータの取得

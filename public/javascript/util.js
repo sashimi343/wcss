@@ -6,7 +6,7 @@
  * @param xhr AjaxのXHRオブジェクト
  */
 function ajaxSuccessCallback (data, statusCode, xhr) {
-    alert(data.message);
+    if(data.message)    alert(data.message);
     location.href = data.redirect || location.toString();
 }
 

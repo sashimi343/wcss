@@ -53,11 +53,10 @@ module AdminRoute
             if administrator and administrator.authenticate params[:password]
                 # 認証成功
                 session[:admin_id] = params[:registration_id]
-                redirect '/admin'
+                { redirect: '/admin' }.to_json
             else
                 # 認証失敗
-                session[:error_message] = 'Incorrect ID or password'
-                redirect '/admin/login'
+                { message: 'Incorrect ID or password' }.to_json
             end
         end
 
