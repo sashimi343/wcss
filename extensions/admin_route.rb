@@ -13,8 +13,6 @@ module AdminRoute
         base.get '/admin' do
             @page_title = 'Administrator page'
             @text = "Hello, #{session[:admin_id]}"
-            @error_message = session[:error_message]  # パスワード変更エラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :admin
         end
 
@@ -28,10 +26,9 @@ module AdminRoute
                     params[:password],
                     params[:password_confirmation]
                 )
+                { message: 'Password has been changed' }.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/admin'
+                { message: e.message }.to_json
             end
         end
 

@@ -69,4 +69,25 @@ $("#submit button").on("click", function () {
     });
 });
 
+// 作曲者情報の編集処理
+$("#change-password button").on("click", function () {
+    // フォームパラメータの取得
+    var current_password = $("#change-password [name=current_password]").val();
+    var password = $("#change-password [name=password]").val();
+    var password_confirmation = $("#change-password [name=password_confirmation]").val();
+
+    $.ajax({
+        url: location.toString(),
+        type: "POST",
+        dataType: "json",
+        data: {
+            current_password: current_password,
+            password: password,
+            password_confirmation: password_confirmation,
+        },
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+});
+
 });

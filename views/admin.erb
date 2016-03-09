@@ -4,7 +4,7 @@
     <li><a href="/admin/compilations">Compilations</a></li>
 </ul>
 <h2>Change password</h2>
-<form class="form-horizontal" method="POST" action="">
+<form id="change-password" class="form-horizontal" method="POST" action="">
     <div class="form-group">
         <label class="control-label col-sm-3" class="" for="current_password">current password </label>
         <div class="col-sm-9">
@@ -23,9 +23,8 @@
             <input class="form-control" type="password" name="password_confirmation" />
         </div>
     </div>
-    <input class="btn btn-primary col-sm-offset-3" type="submit" value="change" />
+    <button class="btn btn-primary col-sm-offset-3" type="button">change</button>
 </form>
-<p><%= @error_message %></p>
 <form method="POST" action="/admin/logout">
     <p>
     <input class="btn btn-default" type="submit" value="logout" />
