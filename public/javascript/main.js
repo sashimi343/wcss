@@ -53,6 +53,9 @@ $("#submit button").on("click", function () {
     fd.append("artist", $("#submit [name=artist]").val());
     fd.append("comment", $("#submit [name=comment]").val());
 
+    // ローディング画像の表示
+    displayLoading("Submitting...");
+
     $.ajax({
         url: location.toString(),
         type: "POST",
@@ -61,7 +64,8 @@ $("#submit button").on("click", function () {
         processData: false,
         contentType: false,
         success: ajaxSuccessCallback,
-        error: ajaxErrorCallback
+        error: ajaxErrorCallback,
+        complete: removeLoading
     });
 });
 

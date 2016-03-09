@@ -20,3 +20,28 @@ function ajaxSuccessCallback (data, statusCode, xhr) {
 function ajaxErrorCallback (xhr, textStatus, e) {
     alert("An error was occurred\nPlease try again later");
 }
+
+/**
+ * ローディング画像を表示する
+ * @param msg 画像と共に表示するメッセージ (省略可)
+ */
+function displayLoading (msg) {
+    // 画面表示メッセージ
+    var message = "";
+ 
+    // 引数が空の場合は画像のみ
+    if(msg != "") {
+        message = "<div class='loadingMsg'>" + msg + "</div>";
+    }
+    // ローディング画像が表示されていない場合のみ表示
+    if($("#loading").size() == 0) {
+        $("body").append("<div id='loading'>" + message + "</div>");
+    } 
+}
+ 
+/**
+ * ローディング画像を消す
+ */
+function removeLoading () {
+    $("#loading").remove();
+}
