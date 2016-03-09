@@ -20,8 +20,6 @@ module UserRoute
             @page_title = 'Dashboard'
             @text = "Hello, #{session[:user_id]}"
             @participations = @composer.participations
-            @error_message = session[:error_message]  # ユーザ情報編集エラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :dashboard
         end
 
@@ -35,10 +33,10 @@ module UserRoute
                 if params.key? 'registration_id' and !params[:registration_id].empty?
                     session[:user_id] = params[:registration_id]
                 end
+
+                { message: 'User information has been changed' }.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/dashboard'
+                { message: e.message }.to_json
             end
         end
 

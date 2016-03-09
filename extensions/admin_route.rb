@@ -113,10 +113,14 @@ module AdminRoute
 
             begin
                 composer.modify_information params
-                redirect "/admin/composers/#{composer.registration_id}"
+                status 200
+                {
+                    message: 'Composer information has been changed',
+                    redirect: "/admin/composers/#{composer.registration_id}"
+                }.to_json
             rescue => e
-                session[:error_message] = e.message
-                redirect "/admin/composers/#{reg_id}"
+                status 304
+                { message: e.message }.to_json
             end
         end
 

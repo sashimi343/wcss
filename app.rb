@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'active_record'
 require 'dropbox_sdk'
+require 'json'
 require './models/administrator'
 require './models/composer'
 require './models/compilation'
