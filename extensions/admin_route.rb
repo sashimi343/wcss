@@ -93,8 +93,6 @@ module AdminRoute
             halt 404 unless @composer
 
             @page_title = "#{@composer.name} (#{@composer.registration_id})"
-            @error_message = session[:error_message]   # 編集エラーがあれば表示
-            session[:error_message] = nil
             erb :composer
         end
 
