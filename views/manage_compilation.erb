@@ -26,7 +26,7 @@
     <% end %>
     </tbody>
 </table>
-<form class="form-inline" method="POST" action="/admin/compilations/<%= @compilation.compilation_name %>/participations">
+<form id="add-participant" class="form-inline">
     <div class="form-group">
         <select class="form-control" name="registration_id">
         <% @composers.each do |composer| %>
@@ -34,11 +34,11 @@
         <% end %>
         </select>
     </div>
-    <input class="btn btn-primary" type="submit" value="participate" />
+    <button class="btn btn-primary" type="button">participate</button>
 </form>
 <p><a href="<%= @compilation.download_all_url %>" target="_blank">Download all</a></p>
 <h2>Modify compilation</h2>
-<form class="form-horizontal" method="POST" action="">
+<form id="modify-compilation" class="form-horizontal">
     <div class="form-group">
         <label class="control-label col-sm-3" for="compilation_name">ID </label>
         <div class="col-sm-9">
@@ -69,7 +69,6 @@
             <input class="form-control" type="datetime-local" name="deadline" value="<%= @compilation.deadline.strftime "%Y-%m-%dT%H:%M" %>" />
         </div>
     </div>
-    <input class="btn btn-primary col-sm-offset-3" type="submit" value="modify" />
+    <button class="btn btn-primary col-sm-offset-3" type="button">modify</button>
 </form>
-<p><%= @error_message %></p>
 <a class="btn btn-default" href="/admin/compilations">Back</a>

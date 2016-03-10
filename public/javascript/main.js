@@ -142,4 +142,46 @@ $("#add-compilation button").on("click", function () {
     });
 });
 
+// コンピの編集処理
+$("#modify-compilation button").on("click", function () {
+    // フォームパラメータの取得
+    var compilation_name = $("#modify-compilation [name=compilation_name]").val();
+    var title = $("#modify-compilation [name=title]").val();
+    var description = $("#modify-compilation [name=description]").val();
+    var requirement = $("#modify-compilation [name=requirement]").val();
+    var deadline = $("#modify-compilation [name=deadline]").val();
+
+    $.ajax({
+        url: location.toString(),
+        type: "POST",
+        dataType: "json",
+        data: {
+            compilation_name: compilation_name,
+            title: title,
+            description: description,
+            requirement: requirement,
+            deadline: deadline
+        },
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+});
+
+// コンピへの参加者追加処理
+$("#add-participant button").on("click", function () {
+    // フォームパラメータの取得
+    var registration_id = $("#add-participant [name=registration_id]").val();
+
+    $.ajax({
+        url: location.toString()+"/participations",
+        type: "POST",
+        dataType: "json",
+        data: {
+            registration_id: registration_id
+        },
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+});
+
 });

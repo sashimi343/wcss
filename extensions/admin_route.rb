@@ -119,8 +119,6 @@ module AdminRoute
 
             @page_title = 'Compilations'
             @compilations = organizer.compilations if organizer
-            @error_message = session[:error_message]   # 作成エラーがあれば表示
-            session[:error_message] = nil
             erb :compilations
         end
 
@@ -144,8 +142,6 @@ module AdminRoute
 
             @page_title = @compilation.title
             @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
-            @error_message = session[:error_message]   # 編集エラーがあれば表示
-            session[:error_message] = nil
             erb :manage_compilation
         end
 
@@ -157,10 +153,12 @@ module AdminRoute
 
             begin
                 compilation.modify_information params
-                redirect "/admin/compilations/#{compilation.compilation_name}"
+                {
+                    message: 'Compilation information has been changed',
+                    redirect: "/admin/compilations/#{compilation.compilation_name}"
+                }.to_json
             rescue => e
-                session[:error_message] = e.message
-                redirect "/admin/compilations/#{compi_name}"
+                { message: e.message }.to_json
             end
         end
         
@@ -172,10 +170,9 @@ module AdminRoute
 
             begin
                 composer.join_compilation compilation
+                { message: 'A new participant has been added' }.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect "/admin/compilations/#{compi_name}" 
+                { message: e.message }.to_json
             end
         end
     end
