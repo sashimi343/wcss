@@ -1,4 +1,28 @@
 /**
+ * フォームに割り当てられたidとリクエスト先URLをもとにAjaxを行う
+ * 成功時、失敗時のコールバック関数はajaxSuccessCallback, ajaxErrorCallback
+ * @param id POSTを行うフォームのid ('#'を含む)
+ * @param リクエスト先URL (省略時は現在のパス)
+ */
+function myAjax (id, url) {
+    // フォームデータの取得
+    var form = $(id).get(0);
+    var formData = new FormData(form);
+
+    // POSTリクエスト
+    $.ajax({
+        url: url || location.toString(),
+        type: "POST",
+        dataType: "json",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+}
+
+/**
  * 各種送信ボタンのAjax処理成功時に呼ばれる関数
  * ユーザに結果のフィードバックを行う
  * @param data 処理結果を記述したJSONデータ
