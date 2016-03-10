@@ -34,7 +34,7 @@ module UserRoute
                     session[:user_id] = params[:registration_id]
                 end
 
-                { message: 'User information has been changed' }.to_json
+                {}.to_json
             rescue => e
                 { message: e.message }.to_json
             end

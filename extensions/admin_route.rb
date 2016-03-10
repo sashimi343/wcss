@@ -81,7 +81,7 @@ module AdminRoute
                     name: params[:name],
                     contact: params[:contact]
                 )
-                { message: 'A new composer has been added' }.to_json
+                {}.to_json
             rescue => e
                 { message: e.message }.to_json
             end
@@ -102,13 +102,8 @@ module AdminRoute
 
             begin
                 composer.modify_information params
-                status 200
-                {
-                    message: 'Composer information has been changed',
-                    redirect: "/admin/composers/#{composer.registration_id}"
-                }.to_json
+                { redirect: "/admin/composers/#{composer.registration_id}" }.to_json
             rescue => e
-                status 304
                 { message: e.message }.to_json
             end
         end
@@ -128,7 +123,7 @@ module AdminRoute
 
             begin
                 organizer.hold_new_compilation params
-                { message: 'A new compilation has been added' }.to_json
+                {}.to_json
             rescue => e
                 { message: e.message }.to_json
             end
@@ -153,10 +148,7 @@ module AdminRoute
 
             begin
                 compilation.modify_information params
-                {
-                    message: 'Compilation information has been changed',
-                    redirect: "/admin/compilations/#{compilation.compilation_name}"
-                }.to_json
+                { redirect: "/admin/compilations/#{compilation.compilation_name}" }.to_json
             rescue => e
                 { message: e.message }.to_json
             end
@@ -170,7 +162,7 @@ module AdminRoute
 
             begin
                 composer.join_compilation compilation
-                { message: 'A new participant has been added' }.to_json
+                {}.to_json
             rescue => e
                 { message: e.message }.to_json
             end

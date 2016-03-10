@@ -50,8 +50,6 @@ get '/:compi_name/submit' do |compi_name|
     # 参加者のみ提出フォームを利用できる
     if @compilation.composers.exists? registration_id: session[:user_id]
         @page_title = "Submission page for #{@compilation.title}"
-        @error_message = session[:error_message]   # 編集エラーがあれば表示
-        session[:error_message] = nil
         erb :submission
     else
         @page_title = 'Permission denied'
