@@ -117,4 +117,29 @@ $("#add-composer button").on("click", function () {
     });
 });
 
+// コンピの追加処理
+$("#add-compilation button").on("click", function () {
+    // フォームパラメータの取得
+    var compilation_name = $("#add-compilation [name=compilation_name]").val();
+    var title = $("#add-compilation [name=title]").val();
+    var description = $("#add-compilation [name=description]").val();
+    var requirement = $("#add-compilation [name=requirement]").val();
+    var deadline = $("#add-compilation [name=deadline]").val();
+
+    $.ajax({
+        url: location.toString(),
+        type: "POST",
+        dataType: "json",
+        data: {
+            compilation_name: compilation_name,
+            title: title,
+            description: description,
+            requirement: requirement,
+            deadline: deadline
+        },
+        success: ajaxSuccessCallback,
+        error: ajaxErrorCallback
+    });
+});
+
 });

@@ -130,10 +130,9 @@ module AdminRoute
 
             begin
                 organizer.hold_new_compilation params
+                { message: 'A new compilation has been added' }.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/admin/compilations'
+                { message: e.message }.to_json
             end
         end
 
