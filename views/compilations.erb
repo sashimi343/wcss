@@ -16,7 +16,7 @@
     </tbody>
 </table>
 <h2>Hold new compilation</h2>
-<form class="form-horizontal" method="POST" action="">
+<form id="add-compilation" class="form-horizontal">
     <div class="form-group">
         <label class="control-label col-sm-3" for="compilation_name">ID </label>
         <div class="col-sm-9">
@@ -47,7 +47,6 @@
             <input class="form-control" type="datetime-local" name="deadline" value="<%= Time.current.strftime "%Y-%m-%dT%H:%M" %>" />
         </div>
     </div>
-    <input class="btn btn-primary col-sm-offset-3" type="submit" value="create" />
+    <button class="btn btn-primary col-sm-offset-3" type="button">create</button>
 </form>
-<p><%= @error_message %></p>
 <p><a class="btn btn-default" href="/admin">Back</a></p>

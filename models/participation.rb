@@ -25,7 +25,7 @@ class Participation < ActiveRecord::Base
 
         begin
             media = dropbox.media path
-            media['url']
+            "#{media['url']}?dl=1"
         rescue => e
             '#'
         end

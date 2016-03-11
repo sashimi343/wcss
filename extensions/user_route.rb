@@ -20,8 +20,6 @@ module UserRoute
             @page_title = 'Dashboard'
             @text = "Hello, #{session[:user_id]}"
             @participations = @composer.participations
-            @error_message = session[:error_message]  # ユーザ情報編集エラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :dashboard
         end
 
@@ -35,10 +33,10 @@ module UserRoute
                 if params.key? 'registration_id' and !params[:registration_id].empty?
                     session[:user_id] = params[:registration_id]
                 end
+
+                {}.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/dashboard'
+                { message: e.message }.to_json
             end
         end
 
@@ -48,8 +46,6 @@ module UserRoute
             redirect '/dashboard' if session[:user_id]
 
             @page_title = 'Login'
-            @error_message = session[:error_message]  # ログインエラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :login
         end
 
@@ -60,11 +56,10 @@ module UserRoute
             if composer and composer.authenticate params[:password]
                 # 認証成功
                 session[:user_id] = params[:registration_id]
-                redirect '/dashboard'
+                { redirect: '/dashboard' }.to_json
             else
                 # 認証失敗
-                session[:error_message] = 'Incorrect ID or password'
-                redirect '/login'
+                { message: 'Incorrect ID or password' }.to_json
             end
         end
 

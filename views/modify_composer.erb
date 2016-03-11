@@ -1,4 +1,5 @@
-<form class="form-horizontal" method="POST" action="">
+<h2>Modify composer information</h2>
+<form id="modify-composer" class="form-horizontal">
     <div class="form-group">
         <label class="control-label col-sm-3" for="registration_id">ID </label>
         <div class="col-sm-9">
@@ -18,11 +19,16 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="control-label col-sm-3" for="name">name </label>
+        <div class="col-sm-9">
+            <input class="form-control" type="text" name="name" />
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label col-sm-3" for="contact">contact (optional) </label>
         <div class="col-sm-9">
             <input class="form-control" type="text" name="contact" />
         </div>
     </div>
-    <input class="btn btn-primary col-sm-offset-3" type="submit" value="modify" />
+    <button class="btn btn-primary col-sm-offset-3" type="button">modify</button>
 </form>
-<p><%= @error_message %></p>

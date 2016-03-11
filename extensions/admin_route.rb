@@ -13,8 +13,6 @@ module AdminRoute
         base.get '/admin' do
             @page_title = 'Administrator page'
             @text = "Hello, #{session[:admin_id]}"
-            @error_message = session[:error_message]  # パスワード変更エラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :admin
         end
 
@@ -28,10 +26,9 @@ module AdminRoute
                     params[:password],
                     params[:password_confirmation]
                 )
+                { message: 'Password has been changed' }.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/admin'
+                { message: e.message }.to_json
             end
         end
 
@@ -41,8 +38,6 @@ module AdminRoute
             redirect '/admin' if session[:admin_id]
 
             @page_title = 'Administrator login'
-            @error_message = session[:error_message]  # ログインエラーがあればそれを表示
-            session[:error_message] = nil             # エラー情報のリセット
             erb :login
         end
 
@@ -53,11 +48,10 @@ module AdminRoute
             if administrator and administrator.authenticate params[:password]
                 # 認証成功
                 session[:admin_id] = params[:registration_id]
-                redirect '/admin'
+                { redirect: '/admin' }.to_json
             else
                 # 認証失敗
-                session[:error_message] = 'Incorrect ID or password'
-                redirect '/admin/login'
+                { message: 'Incorrect ID or password' }.to_json
             end
         end
 
@@ -71,8 +65,6 @@ module AdminRoute
         base.get '/admin/composers' do
             @page_title = 'Composers'
             @composers = Composer.all
-            @error_message = session[:error_message]   # 作成エラーがあれば表示
-            session[:error_message] = nil
             erb :composers
         end
 
@@ -89,10 +81,9 @@ module AdminRoute
                     name: params[:name],
                     contact: params[:contact]
                 )
+                {}.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/admin/composers'
+                { message: e.message }.to_json
             end
         end
 
@@ -102,8 +93,6 @@ module AdminRoute
             halt 404 unless @composer
 
             @page_title = "#{@composer.name} (#{@composer.registration_id})"
-            @error_message = session[:error_message]   # 編集エラーがあれば表示
-            session[:error_message] = nil
             erb :composer
         end
 
@@ -113,10 +102,9 @@ module AdminRoute
 
             begin
                 composer.modify_information params
-                redirect "/admin/composers/#{composer.registration_id}"
+                { redirect: "/admin/composers/#{composer.registration_id}" }.to_json
             rescue => e
-                session[:error_message] = e.message
-                redirect "/admin/composers/#{reg_id}"
+                { message: e.message }.to_json
             end
         end
 
@@ -126,8 +114,6 @@ module AdminRoute
 
             @page_title = 'Compilations'
             @compilations = organizer.compilations if organizer
-            @error_message = session[:error_message]   # 作成エラーがあれば表示
-            session[:error_message] = nil
             erb :compilations
         end
 
@@ -137,10 +123,9 @@ module AdminRoute
 
             begin
                 organizer.hold_new_compilation params
+                {}.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect '/admin/compilations'
+                { message: e.message }.to_json
             end
         end
 
@@ -152,8 +137,6 @@ module AdminRoute
 
             @page_title = @compilation.title
             @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
-            @error_message = session[:error_message]   # 編集エラーがあれば表示
-            session[:error_message] = nil
             erb :manage_compilation
         end
 
@@ -165,10 +148,9 @@ module AdminRoute
 
             begin
                 compilation.modify_information params
-                redirect "/admin/compilations/#{compilation.compilation_name}"
+                { redirect: "/admin/compilations/#{compilation.compilation_name}" }.to_json
             rescue => e
-                session[:error_message] = e.message
-                redirect "/admin/compilations/#{compi_name}"
+                { message: e.message }.to_json
             end
         end
         
@@ -180,10 +162,9 @@ module AdminRoute
 
             begin
                 composer.join_compilation compilation
+                {}.to_json
             rescue => e
-                session[:error_message] = e.message
-            ensure
-                redirect "/admin/compilations/#{compi_name}" 
+                { message: e.message }.to_json
             end
         end
     end
