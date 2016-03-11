@@ -2,7 +2,7 @@ require 'active_record'
 
 class Compilation < ActiveRecord::Base
     # バリデーション
-    VALID_NAME_REGEX = /[0-9a-z\_\-]{4,31}/
+    VALID_NAME_REGEX = /\A[0-9a-z\_\-]{4,31}\z/
     validates :compilation_name, presence: true
     validates :compilation_name, uniqueness: true
     validates :compilation_name, format: { with: VALID_NAME_REGEX }
