@@ -70,6 +70,7 @@ class Composer < ActiveRecord::Base
             participation.song_title = song_title
             participation.artist = artist
             participation.comment = comment
+            participation.submission = Time.current
             participation.save!
 
             # ユーザのアップロード済みファイルを削除する (ユーザID変更対策)
