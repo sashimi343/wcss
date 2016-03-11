@@ -2,7 +2,7 @@ require 'active_record'
 
 class Composer < ActiveRecord::Base
     # バリデーション
-    VALID_NAME_REGEX = /[0-9a-z\_\-]{4,31}/i
+    VALID_NAME_REGEX = /\A[0-9a-z\_\-]{4,31}\z/i
     validates :registration_id, presence: true
     validates :registration_id, uniqueness: true
     validates :registration_id, format: { with: VALID_NAME_REGEX }
