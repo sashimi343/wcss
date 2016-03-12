@@ -18,7 +18,7 @@ by using this system.
     <tbody>
     <% @compilations.each do |compilation| %>
         <tr>
-            <td><%= compilation.title %></td>
+            <td><%= CGI.escapeHTML compilation.title.to_s %></td>
             <td><%= compilation.deadline %></td>
             <td><a href="/<%= compilation.compilation_name %>">detail</a></td>
         </tr>
@@ -33,7 +33,7 @@ by using this system.
     <tbody>
     <% @past_compilations.each do |compilation| %>
         <tr>
-            <td><%= compilation.title %></td>
+            <td><%= CGI.escapeHTML compilation.title.to_s %></td>
             <td><%= compilation.deadline %></td>
             <td><a href="/<%= compilation.compilation_name %>">detail</a></td>
         </tr>

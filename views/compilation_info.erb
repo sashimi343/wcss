@@ -1,12 +1,12 @@
 <p class="lead">
 <% @compilation.description.each_line do |line| %>
-    <%= line.chomp %><br />
+    <%= CGI.escapeHTML line.chomp.to_s %><br />
 <% end %>
 </p>
 <h2>Requirements</h2>
 <ul>
 <% @compilation.requirement.each_line do |requirement| %>
-    <li><%= requirement %></li>
+    <li><%= CGI.escapeHTML requirement.to_s %></li>
 <% end %>
 </ul>
 <h2>Deadline</h2>

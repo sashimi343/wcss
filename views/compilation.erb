@@ -2,7 +2,7 @@
 <h2>Participations</h2>
 <ul>
 <% @compilation.composers.each do |composer| %>
-    <li><%= composer.name %></li>
+    <li><%= CGI.escapeHTML composer.name.to_s %></li>
 <% end %>
 </ul>
 <a class="btn btn-primary" href="/<%= @compilation.compilation_name %>/submit">Submit a track</a>
