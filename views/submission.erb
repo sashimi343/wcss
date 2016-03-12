@@ -1,3 +1,12 @@
+<!-- Start of deadline timer -->
+<script type="text/javascript">
+$(function () {
+    countDown("<%= @deadline_utc %>");
+});
+</script>
+<h2>Remaining Time</h2>
+<div id="deadline-timer"></div>
+<!-- End of deadline timer -->
 <form id="submit" class="form-horizontal" enctype="multipart/form-data">
     <div class="form-group">
         <label class="control-label col-sm-3" for="wav_file">Song file (.wav) </label>

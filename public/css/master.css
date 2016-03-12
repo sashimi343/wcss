@@ -7,7 +7,7 @@ body {
 }
 
 /* ローディング画像用 */
-#loading{
+#loading {
     border: 1px dashed #999999;
     padding: 15px;
     position:  fixed;
@@ -18,7 +18,7 @@ body {
     -moz-opacity: 0.85;
     opacity: 0.85;
 }
-#loading .loadingMsg{
+#loading .loadingMsg {
     text-align: center;
     padding-top: 25px;
     width: 100px;
@@ -26,4 +26,12 @@ body {
     background-position: center top;
     background-repeat: no-repeat;
     font-family: "メイリオ"!important;
+}
+
+/* 締め切りタイマー */
+#deadline-timer {
+    margin: 10px auto 40px;
+    font-size: 1.5em;
+    color: #ff0000;
+    font-weight: bold;
 }
