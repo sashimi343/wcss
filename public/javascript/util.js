@@ -69,3 +69,39 @@ function displayLoading (msg) {
 function removeLoading () {
     $("#loading").remove();
 }
+
+/**
+ * 期限までの残り時間をカウントダウンするタイマーを作成する
+ * http://qiita.com/stm3/items/45ee16aca2972abf7c7d 参照
+ * @param deadline_utc 締め切り日時 (UTC)
+ */
+function countDown (deadline_utc) {
+    var startDateTime = new Date();
+    var endDateTime = new Date(deadline_utc);
+    var left = endDateTime - startDateTime;
+    var a_day = 24 * 60 * 60 * 1000;
+
+    // 締め切りを過ぎている場合、カウントダウンを終了する
+    if(left < 0) {
+        $("#deadline-timer").text("You are late for the deadline!");
+        return;
+    }
+
+    // 期限から現在までの『残時間の日の部分』
+    var d = Math.floor(left / a_day) 
+
+    // 期限から現在までの『残時間の時間の部分』
+    var h = Math.floor((left % a_day) / (60 * 60 * 1000)) 
+
+    // 残時間を秒で割って残分数を出す。
+    // 残分数を60で割ることで、残時間の「時」の余りとして、『残時間の分の部分』を出す
+    var m = Math.floor((left % a_day) / (60 * 1000)) % 60 
+
+    // 残時間をミリ秒で割って、残秒数を出す。
+    // 残秒数を60で割った余りとして、「秒」の余りとしての残「ミリ秒」を出す。
+    // 更にそれを60で割った余りとして、「分」で割った余りとしての『残時間の秒の部分』を出す
+    var s = Math.floor((left % a_day) / 1000) % 60 % 60 
+
+    $("#deadline-timer").text(d + "days " + h + "hours " + m + "minutes " + s + "seconds");
+    setTimeout(countDown, 1000, deadline_utc);
+}
