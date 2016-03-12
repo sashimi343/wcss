@@ -6,7 +6,7 @@
     <tbody>
         <tr>
             <td><%= @composer.registration_id %></td>
-            <td><%= @composer.name %></td>
-            <td><%= @composer.contact %></td>
+            <td><%= CGI.escapeHTML @composer.name.to_s %></td>
+            <td><%= CGI.escapeHTML @composer.contact.to_s %></td>
     </tbody>
 </table>

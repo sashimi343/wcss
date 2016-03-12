@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/master.css" type="text/css" charset="utf-8" />
     <script src="/javascript/util.js"></script>
     <script src="/javascript/main.js"></script>
-    <title><%= @page_title %> | WCSS Alpha</title>
+    <title><%= CGI.escapeHTML @page_title.to_s %> | WCSS Alpha</title>
 </head>
 <body>
     <!-- Start of navigation bar -->
@@ -33,7 +33,7 @@
     <!-- End of navigation bar -->
 
     <div class="container-fluid">
-        <h1><%= @page_title %></h1>
+        <h1><%= CGI.escapeHTML @page_title.to_s %></h1>
         <%= yield %>
     </div>
 

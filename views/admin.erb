@@ -1,4 +1,4 @@
-<p><%= @text %></p>
+<p><%= CGI.escapeHTML @text.to_s %></p>
 <ul>
     <li><a href="/admin/composers">Composers</a></li>
     <li><a href="/admin/compilations">Compilations</a></li>

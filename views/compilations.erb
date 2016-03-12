@@ -6,10 +6,10 @@
     <% @compilations.each do |compilation| %>
         <tr>
             <td><%= compilation.compilation_name %></td>
-            <td><%= compilation.title %></td>
-            <td><%= compilation.deadline.in_time_zone 'Asia/Tokyo' %></td>
-            <td><%= compilation.created_at.in_time_zone 'Asia/Tokyo' %></td>
-            <td><%= compilation.updated_at.in_time_zone 'Asia/Tokyo' %></td>
+            <td><%= CGI.escapeHTML compilation.title.to_s %></td>
+            <td><%= compilation.deadline %></td>
+            <td><%= compilation.created_at %></td>
+            <td><%= compilation.updated_at %></td>
             <td><a href="/admin/compilations/<%= compilation.compilation_name %>">edit</a></td>
         </tr>
     <% end %>

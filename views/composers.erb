@@ -6,8 +6,8 @@
     <% @composers.each do |composer| %>
         <tr>
             <td><%= composer.registration_id %></td>
-            <td><%= composer.name %></td>
-            <td><%= composer.contact %></td>
+            <td><%= CGI.escapeHTML composer.name.to_s %></td>
+            <td><%= CGI.escapeHTML composer.contact.to_s %></td>
             <td><%= composer.created_at %></td>
             <td><%= composer.updated_at %></td>
             <td><a href="/admin/composers/<%= composer.registration_id %>">edit</a></td>
