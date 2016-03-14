@@ -9,21 +9,17 @@
             <th>song title</th>
             <th>artist</th>
             <th>comment</th>
-            <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
     <% @participations.each do |participation| %>
         <tr>
-            <td><%= CGI.escapeHTML participation.compilation.title.to_s %></td>
+            <td><a href="/<%= participation.compilation.compilation_name %>"><%= CGI.escapeHTML participation.compilation.title.to_s %></a></td>
             <td><%= participation.compilation.deadline %></td>
             <td<%= ' class="danger"' if participation.late? %>><%= participation.submission %></td>
             <td><%= CGI.escapeHTML participation.song_title.to_s %></td>
             <td><%= CGI.escapeHTML participation.artist.to_s %></td>
             <td><%= CGI.escapeHTML participation.comment.to_s %></td>
-            <td><a href="/<%= participation.compilation.compilation_name %>">detail</a></td>
-            <td><a href="/<%= participation.compilation.compilation_name %>/submit">submit</a></td>
         </tr>
     <% end %>
     </tbody>
