@@ -13,12 +13,13 @@ by using this system.
 <h1>Compilations (now in session)</h1>
 <table class="table table-striped table-sorter">
     <thead>
-        <tr><th>title</th><th>deadline</th></tr>
+        <tr><th>title</th><th>description</th><th>deadline</th></tr>
     </thead>
     <tbody>
     <% @compilations.each do |compilation| %>
         <tr>
             <td><a href="/<%= compilation.compilation_name %>"><%= CGI.escapeHTML compilation.title.to_s %></a></td>
+            <td><%= compilation.description.chomp[0, 30] %><%= ' ...' if compilation.description.length > 30 %></td>
             <td><%= compilation.deadline %></td>
         </tr>
     <% end %>
@@ -27,12 +28,13 @@ by using this system.
 <h1>Past compilations</h1>
 <table class="table table-striped table-sorter">
     <thead>
-        <tr><th>title</th><th>deadline</th></tr>
+        <tr><th>title</th><th>description</th><th>deadline</th></tr>
     </thead>
     <tbody>
     <% @past_compilations.each do |compilation| %>
         <tr>
             <td><a href="/<%= compilation.compilation_name %>"><%= CGI.escapeHTML compilation.title.to_s %></a></td>
+            <td><%= compilation.description.chomp[0, 30] %><%= ' ...' if compilation.description.length > 30 %></td>
             <td><%= compilation.deadline %></td>
         </tr>
     <% end %>
