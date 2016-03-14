@@ -9,9 +9,10 @@ $(function () {
 <!-- End of deadline timer -->
 <form id="submit" class="form-horizontal" enctype="multipart/form-data">
     <div class="form-group">
-        <label class="control-label col-sm-3" for="wav_file">song file (.wav) (*)</label>
+        <label class="control-label col-sm-3" for="wav_file">song file (*)</label>
         <div class="col-sm-9">
             <input type="file" name="wav_file" accept="audio/wav" required />
+            <span class="help-block">you can upload .wav file less than 200MiB.</span>
         </div>
     </div>
     <div class="form-group">
