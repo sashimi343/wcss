@@ -9,25 +9,26 @@ $(function () {
 <!-- End of deadline timer -->
 <form id="submit" class="form-horizontal" enctype="multipart/form-data">
     <div class="form-group">
-        <label class="control-label col-sm-3" for="wav_file">Song file (.wav) </label>
+        <label class="control-label col-sm-3" for="wav_file">song file (*)</label>
         <div class="col-sm-9">
             <input type="file" name="wav_file" accept="audio/wav" required />
+            <span class="help-block">you can upload .wav file less than 200MiB.</span>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="song_title">Song title </label>
+        <label class="control-label col-sm-3" for="song_title">song title (*)</label>
         <div class="col-sm-9">
             <input class="form-control" type="text" name="song_title" />
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="artist">Artist </label>
+        <label class="control-label col-sm-3" for="artist">artist (*)</label>
         <div class="col-sm-9">
             <input class="form-control" type="text" name="artist" />
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="comment">comment (optional) </label>
+        <label class="control-label col-sm-3" for="comment">comment</label>
         <div class="col-sm-9">
             <input class="form-control" type="text" name="comment" />
         </div>
