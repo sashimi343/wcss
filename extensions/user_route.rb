@@ -3,7 +3,7 @@ require 'sinatra/base'
 module UserRoute
     def self.registered(base)
         # ログインが必要なページ
-        %w(/dashboard /*/submit).each do |route|
+        %w(/dashboard).each do |route|
             base.before route do
                 redirect '/login' unless session[:user_id]
             end
@@ -56,7 +56,12 @@ module UserRoute
             if composer and composer.authenticate params[:password]
                 # 認証成功
                 session[:user_id] = params[:registration_id]
-                { redirect: '/dashboard' }.to_json
+
+                if params[:from] and Compilation.exists? compilation_name: params[:from]
+                    { redirect: "/#{params[:from]}/submit" }.to_json
+                else
+                    { redirect: '/dashboard' }.to_json
+                end
             else
                 # 認証失敗
                 { message: 'Incorrect ID or password' }.to_json
