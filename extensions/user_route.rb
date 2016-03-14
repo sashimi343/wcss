@@ -30,7 +30,7 @@ module UserRoute
             begin
                 composer.modify_information params
 
-                if params.key? 'registration_id' and !params[:registration_id].empty?
+                if params[:registration_id] and !params[:registration_id].empty?
                     session[:user_id] = params[:registration_id]
                 end
 

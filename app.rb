@@ -72,7 +72,7 @@ post '/:compi_name/submit' do |compi_name|
     # 楽曲提出の処理を行う
     begin
         # ファイルの存在確認
-        raise IOError.new('No wav file specified') unless params.key? 'wav_file'
+        raise IOError.new('No wav file specified') unless params[:wav_file]
 
         composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
 
