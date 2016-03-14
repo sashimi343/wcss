@@ -30,4 +30,12 @@ class Participation < ActiveRecord::Base
             '#'
         end
     end
+
+    # 提出が締め切り時刻を過ぎているか判定する
+    # ==== Return
+    # true :: 提出時刻が締め切り時刻以前、または現在時刻が締め切り前
+    # false :: 提出時刻が締め切り時刻より後、または締め切りを過ぎているのに未提出
+    def late?
+        (submission ? submission : Time.current) > compilation.deadline
+    end
 end
