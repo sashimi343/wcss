@@ -1,5 +1,11 @@
 $(function () {
 
+// テーブルにソート機能を追加する
+$("table.table-sorter").tableSort({
+    animation: "none",
+    speed: 0
+});
+
 ////////////////////////////////////////////////////////////////////////////////
 //  フォーム送信イベント (半Ajax)
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,5 +52,6 @@ $("#submit button").on("click", function () {
 $("#add-participant button").on("click", function () {
     myAjax("#add-participant", location.toString()+"/participations");
 });
+
 
 });
