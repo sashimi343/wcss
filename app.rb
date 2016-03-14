@@ -45,6 +45,8 @@ end
 
 # コンピへの楽曲提出用ページを表示する (要ユーザログイン)
 get '/:compi_name/submit' do |compi_name|
+    redirect "/login?from=#{compi_name}" unless session[:user_id]
+
     compilation = Compilation.find_by compilation_name: compi_name
     halt 404 unless compilation
 
@@ -60,7 +62,7 @@ get '/:compi_name/submit' do |compi_name|
     end
 end
 
-# コンピに楽曲を提出する (要ユーザログイン)
+# コンピに楽曲を提出する
 post '/:compi_name/submit' do |compi_name|
     compilation = Compilation.find_by compilation_name: compi_name
     halt 404 unless compilation
