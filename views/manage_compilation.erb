@@ -17,7 +17,7 @@
         <tr>
             <td><%= participation.composer.registration_id %></td>
             <td><%= CGI.escapeHTML participation.composer.name.to_s %></td>
-            <td><%= participation.submission %></td>
+            <td<%= ' class="danger"' if participation.late? %>><%= participation.submission %></td>
             <td><%= CGI.escapeHTML participation.artist.to_s %></td>
             <td><%= CGI.escapeHTML participation.song_title.to_s %></td>
             <td><%= CGI.escapeHTML participation.comment.to_s %></td>
