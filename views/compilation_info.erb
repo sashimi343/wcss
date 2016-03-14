@@ -1,3 +1,4 @@
+<!-- Start of compilation information -->
 <p class="lead">
 <% @compilation.description.each_line do |line| %>
     <%= CGI.escapeHTML line.chomp.to_s %><br />
@@ -11,4 +12,4 @@
 </ul>
 <h2>Deadline</h2>
 <p><%= @compilation.deadline %></p>
-
+<!-- End of compilation information -->
