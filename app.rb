@@ -23,7 +23,7 @@ ActiveRecord::Base.default_timezone = :local
 DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 enable :sessions
-set :session_secret, 'himitsu desuno'
+set :session_secret, ENV['SESSION_SECRET']
 register AdminRoute, UserRoute
 
 # トップページを表示する
