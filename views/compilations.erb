@@ -1,3 +1,4 @@
+<% unless @compilations.empty? %>
 <table class="table table-striped table-sorter">
     <thead>
         <tr><th>ID</th><th>title</th><th>deadline</th><th>created at</th><th>updated at</th><th></th></tr>
@@ -15,6 +16,7 @@
     <% end %>
     </tbody>
 </table>
+<% end %>
 <h2>Hold new compilation</h2>
 <form id="add-compilation" class="form-horizontal">
     <div class="form-group">

@@ -1,5 +1,6 @@
 <p><%= CGI.escapeHTML @text.to_s %></p>
 <h2>Participating compilations</h2>
+<% unless @participations.empty? %>
 <table class="table table-striped table-sorter">
     <thead>
         <tr>
@@ -24,6 +25,7 @@
     <% end %>
     </tbody>
 </table>
+<% end %>
 <%= erb :composer_info, layout: false %>
 <%= erb :composer_modification, layout: false %>
 <form method="POST" action="/logout">

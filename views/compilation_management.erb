@@ -1,5 +1,6 @@
 <%= erb :compilation_info, layout: false %>
 <h2>Participations</h2>
+<% unless @compilation.participations.empty? %>
 <table class="table table-striped table-sorter">
     <thead>
         <tr>
@@ -26,6 +27,7 @@
     <% end %>
     </tbody>
 </table>
+<% end %>
 <p><a class="btn btn-primary" href="<%= @compilation.download_all_url %>" target="_blank">download all</a></p>
 <h2>Add participant</h2>
 <form id="add-participant" class="form-inline">
