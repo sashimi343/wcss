@@ -36,7 +36,7 @@ class Composer < ActiveRecord::Base
     # ==== Raise
     # ArgumentError :: 作曲者が既にコンピに参加している場合に発生
     def join_compilation(compilation)
-        if compilation.composers.find_by registration_id: registration_id
+        if compilation.composers.exists? registration_id: registration_id
             raise ArgumentError.new "Composer #{name} is already participate in compilation #{compilation.title}"
         end
 
