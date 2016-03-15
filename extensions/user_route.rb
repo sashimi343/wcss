@@ -18,7 +18,7 @@ module UserRoute
             end
 
             @page_title = 'Dashboard'
-            @text = "Hello, #{session[:user_id]}"
+            @text = "ようこそ#{session[:user_id]}さん"
             @participations = @composer.participations
             erb :dashboard
         end
@@ -61,7 +61,7 @@ module UserRoute
                 end
             else
                 # 認証失敗
-                { message: 'Incorrect ID or password' }.to_json
+                { message: 'IDまたはパスワードが違います' }.to_json
             end
         end
 

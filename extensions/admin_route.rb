@@ -12,7 +12,7 @@ module AdminRoute
         # 管理者用ページを表示する
         base.get '/admin' do
             @page_title = 'Administrator page'
-            @text = "Hello, #{session[:admin_id]}"
+            @text = "ようこそ#{session[:admin_id]}さん"
             erb :admin
         end
 
@@ -26,7 +26,7 @@ module AdminRoute
                     params[:password],
                     params[:password_confirmation]
                 )
-                { message: 'Password has been changed' }.to_json
+                { message: 'パスワードを変更しました' }.to_json
             rescue => e
                 { message: e.message }.to_json
             end
@@ -51,7 +51,7 @@ module AdminRoute
                 { redirect: '/admin' }.to_json
             else
                 # 認証失敗
-                { message: 'Incorrect ID or password' }.to_json
+                { message: 'IDまたはパスワードが違います' }.to_json
             end
         end
 
@@ -72,7 +72,7 @@ module AdminRoute
         base.post '/admin/composers' do
             begin
                 unless params[:password] == params[:password_confirmation]
-                    raise ArgumentError.new 'The passwords you entered do not match'
+                    raise ArgumentError.new 'パスワードと確認用パスワードが一致しません'
                 end
 
                 composer = Composer.create!(
