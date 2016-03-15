@@ -137,7 +137,7 @@ module AdminRoute
 
             @page_title = @compilation.title
             @composers = Composer.all  # TODO: まだ参加していない作曲者のみ表示
-            erb :manage_compilation
+            erb :compilation_management
         end
 
         # コンピ情報の編集を行う
