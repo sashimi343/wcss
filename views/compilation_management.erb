@@ -9,7 +9,7 @@
             <th>artist</th>
             <th>song title</th>
             <th>comment</th>
-            <th>download</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -21,12 +21,12 @@
             <td><%= CGI.escapeHTML participation.artist.to_s %></td>
             <td><%= CGI.escapeHTML participation.song_title.to_s %></td>
             <td><%= CGI.escapeHTML participation.comment.to_s %></td>
-            <td><a href="<%= participation.download_url %>">Download</a></td>
+            <td><%= unless (url = participation.download_url).nil? then "<a href=\"#{url}\">download</a>" end %></td>
         </tr>
     <% end %>
     </tbody>
 </table>
-<p><a class="btn btn-primary" href="<%= @compilation.download_all_url %>" target="_blank">Download all</a></p>
+<p><a class="btn btn-primary" href="<%= @compilation.download_all_url %>" target="_blank">download all</a></p>
 <h2>Add participant</h2>
 <form id="add-participant" class="form-inline">
     <div class="form-group">

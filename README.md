@@ -44,6 +44,10 @@ DATABASE_PASSWORD=password
 DATABASE_HOST=host
 DATABASE=database
 
+# session secret
+$ echo SESSION_SECRET=<a session secret> >>.env
+$ heroku config:set SESSION_SECRET=<a session secret>
+
 $ git push heroku master
 $ heroku run rake db:migrate
 $ heroku run rake db:seed

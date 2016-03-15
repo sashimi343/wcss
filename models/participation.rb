@@ -18,7 +18,7 @@ class Participation < ActiveRecord::Base
     # ファイルダウンロード用URLを出力する
     # ==== Return
     # URL :: wavファイルを提出済みの場合
-    # '#' :: wavファイル未提出の場合
+    # nil :: wavファイル未提出の場合
     def download_url
         path = "#{compilation.compilation_name}/#{id}_#{composer.registration_id}.wav"
         dropbox = DropboxClient.new DROPBOX_ACCESS_TOKEN
@@ -27,7 +27,7 @@ class Participation < ActiveRecord::Base
             media = dropbox.media path
             "#{media['url']}?dl=1"
         rescue => e
-            '#'
+            nil
         end
     end
 

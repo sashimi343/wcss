@@ -38,8 +38,6 @@ class Administrator < ActiveRecord::Base
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def hold_new_compilation(values)
         Time.zone = 'Asia/Tokyo'
-        p Time.zone.parse(values[:deadline]).to_s
-        p Time.current.to_s
 
         compilation = compilations.create!(
             compilation_name: values[:compilation_name],
