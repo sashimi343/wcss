@@ -11,7 +11,7 @@ module AdminRoute
 
         # 管理者用ページを表示する
         base.get '/admin' do
-            @page_title = 'Administrator page'
+            @page_title = '管理者ページ'
             @text = "ようこそ#{session[:admin_id]}さん"
             erb :admin
         end
@@ -37,7 +37,7 @@ module AdminRoute
             # ログイン済みの場合、管理者用ページにリダイレクトする
             redirect '/admin' if session[:admin_id]
 
-            @page_title = 'Administrator login'
+            @page_title = '管理者ログイン'
             erb :login
         end
 

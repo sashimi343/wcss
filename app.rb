@@ -52,7 +52,7 @@ get '/:compi_name/submit' do |compi_name|
 
     # 参加者のみ提出フォームを利用できる
     if compilation.composers.exists? registration_id: session[:user_id]
-        @page_title = "Submission page for #{compilation.title}"
+        @page_title = "提出ページ: #{compilation.title}"
         @deadline_unix = compilation.deadline.to_i
         erb :submission
     else

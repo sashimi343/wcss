@@ -42,7 +42,7 @@ module UserRoute
             # ログイン済みの場合、ユーザ用ページにリダイレクトする
             redirect '/dashboard' if session[:user_id]
 
-            @page_title = 'Login'
+            @page_title = 'ログイン'
             erb :login
         end
 
