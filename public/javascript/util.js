@@ -102,6 +102,6 @@ function countDown (deadline_unix) {
     // 更にそれを60で割った余りとして、「分」で割った余りとしての『残時間の秒の部分』を出す
     var s = Math.floor((left % a_day) / 1000) % 60 % 60 
 
-    $("#deadline-timer").text("残り"d + "日 " + h + ":" + m + ":" + s);
+    $("#deadline-timer").text("残り" + d + "日 " + h + ":" + m + ":" + s);
     setTimeout(countDown, 1000, deadline_unix);
 }
