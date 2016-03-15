@@ -73,11 +73,11 @@ function removeLoading () {
 /**
  * 期限までの残り時間をカウントダウンするタイマーを作成する
  * http://qiita.com/stm3/items/45ee16aca2972abf7c7d 参照
- * @param deadline_utc 締め切り日時 (UTC)
+ * @param deadline_unix 締め切り日時 (UNIX時間)
  */
-function countDown (deadline_utc) {
+function countDown (deadline_unix) {
     var startDateTime = new Date();
-    var endDateTime = new Date(deadline_utc);
+    var endDateTime = new Date(deadline_unix * 1000);
     var left = endDateTime - startDateTime;
     var a_day = 24 * 60 * 60 * 1000;
 
@@ -103,5 +103,5 @@ function countDown (deadline_utc) {
     var s = Math.floor((left % a_day) / 1000) % 60 % 60 
 
     $("#deadline-timer").text(d + "days " + h + "hours " + m + "minutes " + s + "seconds");
-    setTimeout(countDown, 1000, deadline_utc);
+    setTimeout(countDown, 1000, deadline_unix);
 }
