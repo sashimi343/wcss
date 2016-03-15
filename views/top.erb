@@ -1,20 +1,20 @@
 <p class="lead">
-WCSS is a supporting system for Web compilations.
+WCSSはWebコンピレーションを支援するシステムです。
 </p>
 <p>
-You can
+このシステムでは、
 <ul>
-    <li>organize and manage compilations</li>
-    <li>submit a track to compilation</li>
-    <li>register track information</li>
+    <li>コンピ情報の登録、管理</li>
+    <li>コンピへの楽曲提出</li>
+    <li>楽曲情報の管理</li>
 </ul>
-by using this system.
+をWebベースで実現します。
 </p>
-<h1>Compilations (now in session)</h1>
+<h1>開催中のコンピ</h1>
 <% unless @compilations.empty? %>
 <table class="table table-striped table-sorter">
     <thead>
-        <tr><th>title</th><th>description</th><th>deadline</th></tr>
+        <tr><th>コンピ名</th><th>概要</th><th>締め切り</th></tr>
     </thead>
     <tbody>
     <% @compilations.each do |compilation| %>
@@ -27,11 +27,11 @@ by using this system.
     </tbody>
 </table>
 <% end %>
-<h1>Past compilations</h1>
+<h1>終了したコンピ</h1>
 <% unless @past_compilations.empty? %>
 <table class="table table-striped table-sorter">
     <thead>
-        <tr><th>title</th><th>description</th><th>deadline</th></tr>
+        <tr><th>コンピ名</th><th>概要</th><th>締め切り</th></tr>
     </thead>
     <tbody>
     <% @past_compilations.each do |compilation| %>

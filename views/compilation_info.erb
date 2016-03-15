@@ -4,12 +4,12 @@
     <%= CGI.escapeHTML line.chomp.to_s %><br />
 <% end %>
 </p>
-<h2>Requirements</h2>
+<h2>要件</h2>
 <ul>
 <% @compilation.requirement.each_line do |requirement| %>
     <li><%= CGI.escapeHTML requirement.to_s %></li>
 <% end %>
 </ul>
-<h2>Deadline</h2>
+<h2>締め切り</h2>
 <p><%= @compilation.deadline %></p>
 <!-- End of compilation information -->
