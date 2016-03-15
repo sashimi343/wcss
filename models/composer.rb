@@ -23,7 +23,7 @@ class Composer < ActiveRecord::Base
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def modify_information(values)
         unless values[:password] == values[:password_confirmation]
-            raise ArgumentError.new 'The passwords you entered do not match'
+            raise ArgumentError.new 'パスワードと確認用パスワードが一致しません'
         end
 
         modifications = values.reject { |k, v| !Composer.column_names.include? k or v.empty? }
@@ -37,7 +37,7 @@ class Composer < ActiveRecord::Base
     # ArgumentError :: 作曲者が既にコンピに参加している場合に発生
     def join_compilation(compilation)
         if compilation.composers.exists? registration_id: registration_id
-            raise ArgumentError.new "Composer #{name} is already participate in compilation #{compilation.title}"
+            raise ArgumentError.new "#{name}は既にコンピ'#{compilation.title}'の参加者です"
         end
 
         compilation.composers << self
@@ -57,12 +57,12 @@ class Composer < ActiveRecord::Base
     def submit_song(compilation, song_title, artist, wav_file, comment)
         participation = compilation.participations.find_by composer_id: id
         unless participation
-            raise ArgumentError.new "Composer #{name} is not participate in compilation #{compilation.title}"
+            raise ArgumentError.new "#{name}はコンピ'#{compilation.title}'に参加していません"
         end
 
         # 提出ファイルのバリデーション
         wav_file_size = ('%.2f' % (wav_file.size.to_f / 2**20)).to_f  # MiB
-        raise IOError.new "Song file exceeds size limit (#{wav_file_size} MiB > 200 MiB)" if wav_file_size > 200.0
+        raise IOError.new "ファイルサイズが大きすぎます (#{wav_file_size} MiB > 200 MiB)" if wav_file_size > 200.0
 
         # 提出処理を行うトランザクション
         ActiveRecord::Base.transaction do

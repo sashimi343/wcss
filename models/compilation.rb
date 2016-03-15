@@ -26,7 +26,7 @@ class Compilation < ActiveRecord::Base
     # deadlineはコンピ開催時以降である必要がある
     def date_cannot_be_in_the_past
         if !deadline.nil? && deadline < Time.current
-            errors.add :deadline, 'is the past date and time'
+            errors.add :deadline, '過去の日時です'
         end
     end
 
