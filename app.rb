@@ -52,12 +52,12 @@ get '/:compi_name/submit' do |compi_name|
 
     # 参加者のみ提出フォームを利用できる
     if compilation.composers.exists? registration_id: session[:user_id]
-        @page_title = "Submission page for #{compilation.title}"
+        @page_title = "提出ページ: #{compilation.title}"
         @deadline_unix = compilation.deadline.to_i
         erb :submission
     else
-        @page_title = 'Permission denied'
-        @text = "You are not participant of #{compilation.title}"
+        @page_title = 'エラー'
+        @text = "あなたはコンピ'#{compilation.title}'に参加していません"
         erb :index
     end
 end
@@ -77,7 +77,7 @@ post '/:compi_name/submit' do |compi_name|
         composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
 
         {
-            message: 'Your track has been submitted successfully',
+            message: "楽曲の提出が成功しました\n登録した楽曲情報はユーザページで確認できます",
             redirect: '/dashboard'
         }.to_json
     rescue => e

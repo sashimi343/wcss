@@ -1,32 +1,33 @@
 <p><%= CGI.escapeHTML @text.to_s %></p>
+<h2>管理メニュー</h2>
 <ul>
     <li><a href="/admin/composers">Composers</a></li>
     <li><a href="/admin/compilations">Compilations</a></li>
 </ul>
-<h2>Change password</h2>
+<h2>パスワードを変更する</h2>
 <form id="change-password" class="form-horizontal">
     <div class="form-group">
-        <label class="control-label col-sm-3" class="" for="current_password">current password (*)</label>
+        <label class="control-label col-sm-3" class="" for="current_password">現在のパスワード (*)</label>
         <div class="col-sm-9">
             <input class="form-control" type="password" name="current_password" />
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="password">new password (*)</label>
+        <label class="control-label col-sm-3" for="password">新しいパスワード (*)</label>
         <div class="col-sm-9">
             <input class="form-control" type="password" name="password" />
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-sm-3" for="password_confirmation">new password (confirmation) (*)</label>
+        <label class="control-label col-sm-3" for="password_confirmation">新しいパスワード (確認) (*)</label>
         <div class="col-sm-9">
             <input class="form-control" type="password" name="password_confirmation" />
         </div>
     </div>
-    <button class="btn btn-primary col-sm-offset-3" type="button">change</button>
+    <button class="btn btn-primary col-sm-offset-3" type="button">変更</button>
 </form>
 <form method="POST" action="/admin/logout">
     <p>
-    <input class="btn btn-default" type="submit" value="logout" />
+    <input class="btn btn-default" type="submit" value="ログアウト" />
     </p>
 </form>

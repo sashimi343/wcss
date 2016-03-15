@@ -42,7 +42,7 @@ function ajaxSuccessCallback (data, statusCode, xhr) {
  * @param e 例外オブジェクト
  */
 function ajaxErrorCallback (xhr, textStatus, e) {
-    alert("An error was occurred\nPlease try again later");
+    alert("通信中にエラーが発生しました\n再度お試し下さい\nこのエラーが頻発する場合、管理者に連絡して下さい");
 }
 
 /**
@@ -83,7 +83,7 @@ function countDown (deadline_unix) {
 
     // 締め切りを過ぎている場合、カウントダウンを終了する
     if(left < 0) {
-        $("#deadline-timer").text("You are late for the deadline!");
+        $("#deadline-timer").text("遅刻です!");
         return;
     }
 
@@ -102,6 +102,6 @@ function countDown (deadline_unix) {
     // 更にそれを60で割った余りとして、「分」で割った余りとしての『残時間の秒の部分』を出す
     var s = Math.floor((left % a_day) / 1000) % 60 % 60 
 
-    $("#deadline-timer").text(d + "days " + h + "hours " + m + "minutes " + s + "seconds");
+    $("#deadline-timer").text("残り" + d + "日 " + h + ":" + m + ":" + s);
     setTimeout(countDown, 1000, deadline_unix);
 }

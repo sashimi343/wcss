@@ -24,8 +24,8 @@ class Administrator < ActiveRecord::Base
     # ArgumentError :: current_passwordの間違い、またはpasswordとpassword_confirmationの不一致時に発生
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
     def change_password(current_password, password, password_confirmation)
-        raise ArgumentError.new('Incorrect current password') unless authenticate current_password
-        raise ArgumentError.new('The passwords you entered do not match') unless password == password_confirmation
+        raise ArgumentError.new('現在のパスワードが違います') unless authenticate current_password
+        raise ArgumentError.new('パスワードと確認用パスワードが一致しません') unless password == password_confirmation
 
         update! password: password
     end

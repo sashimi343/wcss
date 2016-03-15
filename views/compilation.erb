@@ -1,8 +1,8 @@
 <%= erb :compilation_info, layout: false %>
-<h2>Participations</h2>
+<h2>参加者</h2>
 <ul>
 <% @compilation.composers.each do |composer| %>
     <li><%= CGI.escapeHTML composer.name.to_s %></li>
 <% end %>
 </ul>
-<a class="btn btn-primary" href="/<%= @compilation.compilation_name %>/submit">submit a track</a>
+<a class="btn btn-primary" href="/<%= @compilation.compilation_name %>/submit">楽曲を提出する</a>
