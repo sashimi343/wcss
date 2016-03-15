@@ -29,10 +29,7 @@ module UserRoute
 
             begin
                 composer.modify_information params
-
-                if params[:registration_id] and !params[:registration_id].empty?
-                    session[:user_id] = params[:registration_id]
-                end
+                session[:user_id] = composer.registration_id    # ログイン済みユーザIDの修正
 
                 {}.to_json
             rescue => e
