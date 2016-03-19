@@ -80,7 +80,11 @@ class Composer < ActiveRecord::Base
             end
 
             # Dropboxに曲ファイルをアップロードする (古いファイルは上書きする)
-            dropbox.put_file "#{compilation.compilation_name}/#{participation.id}_#{registration_id}.wav", wav_file
+            chunked_uploader = dropbox.get_chunked_uploader wav_file, wav_file.size
+            while chunked_uploader.offset < wav_file.size do
+                chunked_uploader.upload     # 4MiBずつアップロード
+            end
+            chunked_uploader.finish "#{compilation.compilation_name}/#{participation.id}_#{registration_id}.wav"
         end
     end
 end
