@@ -69,18 +69,25 @@ post '/:compi_name/submit' do |compi_name|
     composer = compilation.composers.find_by registration_id: session[:user_id]
     halt 401 unless composer
 
-    # 楽曲提出の処理を行う
-    begin
-        # ファイルの存在確認
-        raise IOError.new('No wav file specified') unless params[:wav_file]
+    # 楽曲提出の処理を別スレッドで行う
+    Thread.new do
+        begin
+            # ファイルの存在確認
+            raise IOError.new('No wav file specified') unless params[:wav_file]
 
-        composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
+            composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
 
-        {
-            message: "楽曲の提出が成功しました\n登録した楽曲情報はユーザページで確認できます",
-            redirect: '/dashboard'
-        }.to_json
-    rescue => e
-        { message: e.message }.to_json
+            # debug
+            p 'debug: submission succeeded'
+        rescue => e
+            # debug
+            p "debug: #{e.message}"
+        end
     end
+
+    # とりあえずクライアントに返信
+    {
+        message: "別スレッドで楽曲のアップロードを開始しました\nそのうち完了すると思います",
+        redirect: '/dashboard'
+    }.to_json
 end
