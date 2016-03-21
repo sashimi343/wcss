@@ -25,6 +25,7 @@ DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 enable :sessions
 set :session_secret, ENV['SESSION_SECRET']
+set :progresses, {}
 register AdminRoute, UserRoute
 
 # トップページを表示する
@@ -70,23 +71,33 @@ post '/:compi_name/submit' do |compi_name|
     composer = compilation.composers.find_by registration_id: session[:user_id]
     halt 401 unless composer
 
+    progress = Progress.new
+    settings.progresses[progress.key] = progress
+
     # 楽曲提出の処理を別スレッドで行う
     Thread.new do
         begin
             # ファイルの存在確認
             raise IOError.new('No wav file specified') unless params[:wav_file]
 
-            composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
-
-            # debug
-            p 'debug: submission succeeded'
+            composer.submit_song(
+                compilation,
+                progress,
+                params[:song_title],
+                params[:artist],
+                params[:wav_file][:tempfile],
+                params[:comment]
+            )
         rescue => e
+            progress.update error_message: e.message
             # debug
-            p "debug: #{e.message}"
+            p progress.to_json
         end
     end
 
-    # とりあえずクライアントに返信
+    # クライアントに進捗情報問い合わせキーを送信する
+    #progress.to_json
+    # とりあえずクライアントに返信 (現在のJS処理に合わせた暫定仕様)
     {
         message: "別スレッドで楽曲のアップロードを開始しました\nそのうち完了すると思います",
         redirect: '/dashboard'
