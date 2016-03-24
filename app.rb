@@ -36,6 +36,19 @@ get '/' do
     erb :top
 end
 
+# 各種処理の進捗情報を返す
+get '/progresses' do
+    halt 400 unless params[:key]
+
+    progress = settings.progresses[params[:key]]
+    
+    if progress
+        progress.to_json
+    else
+        halt 404
+    end
+end
+
 # コンピ情報を表示する
 get '/:compi_name' do |compi_name|
     @compilation = Compilation.find_by compilation_name: compi_name
