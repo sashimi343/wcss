@@ -45,7 +45,20 @@ $("#submit button").on("click", function () {
     // ローディング画像の表示
     displayLoading("送信中...");
 
-    myAjax("#submit");
+    // アップロード状況表示用コールバック関数
+    var callback = function (data) {
+        var key = data.key;
+
+        updateProgress(
+            key,
+            2000,
+            "送信中... (%)",
+            "楽曲の提出が成功しました\n登録した楽曲情報はユーザページで確認できます",
+            "/dashboard"
+        );
+    };
+
+    myAjax("#submit", location.toString(), callback);
 });
 
 // コンピへの参加者追加フォーム

@@ -109,10 +109,5 @@ post '/:compi_name/submit' do |compi_name|
     end
 
     # クライアントに進捗情報問い合わせキーを送信する
-    #progress.to_json
-    # とりあえずクライアントに返信 (現在のJS処理に合わせた暫定仕様)
-    {
-        message: "別スレッドで楽曲のアップロードを開始しました\nそのうち完了すると思います",
-        redirect: '/dashboard'
-    }.to_json
+    progress.to_json
 end

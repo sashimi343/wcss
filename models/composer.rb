@@ -84,7 +84,7 @@ class Composer < ActiveRecord::Base
             # Dropboxに曲ファイルをアップロードする
             chunked_uploader = dropbox.get_chunked_uploader wav_file, wav_file.size
             while chunked_uploader.offset < wav_file.size do
-                chunked_uploader.upload
+                chunked_uploader.upload 1024**2 * 2
                 progress.update progress: chunked_uploader.offset.to_f / wav_file.size
                 # debug
                 p progress.to_json

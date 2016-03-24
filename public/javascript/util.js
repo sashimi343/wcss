@@ -73,6 +73,14 @@ function removeLoading () {
 }
 
 /**
+ * ローディング画面に表示されているメッセージを更新する
+ * @param msg 新しいメッセージ
+ */
+function updateLoadingMessage (msg) {
+    $(".loadingMsg").text(msg);
+}
+
+/**
  * 期限までの残り時間をカウントダウンするタイマーを作成する
  * http://qiita.com/stm3/items/45ee16aca2972abf7c7d 参照
  * @param deadline_unix 締め切り日時 (UNIX時間)
@@ -106,4 +114,54 @@ function countDown (deadline_unix) {
 
     $("#deadline-timer").text("残り" + d + "日 " + h + ":" + m + ":" + s);
     setTimeout(countDown, 1000, deadline_unix);
+}
+
+/**
+ * 進捗情報問い合わせ用キーをもとに、サーバから進捗情報を取得・表示する
+ * また、この問い合わせを定期的に行うように設定もする
+ * @param key 進捗情報問い合わせ用キー
+ * @param interval 進捗情報更新の頻度(ミリ秒)
+ * @param messageTemplate 進捗を表示するときのメッセージのテンプレート
+ *                        (%と書いた部分に進捗状況を挿入します)
+ * @param completion 処理完了時に表示されるメッセージ
+ * @param redirect_url 処理完了後にリダイレクトする先のURL
+ */
+function updateProgress (key, interval, messageTemplate, completion, redirect_url) {
+    $.ajax({
+        url: "/progresses",
+        type: "GET",
+        dataType: "json",
+        data: {
+            key: key
+        },
+        success: function (data) {
+            // 進捗上の表示を更新する
+            var progress = Math.floor(data.progress * 100);
+            updateLoadingMessage(messageTemplate.replace(/%/, progress + "%"));
+
+            switch(data.status) {
+            case "running":
+                setTimeout(
+                    updateProgress,
+                    interval,
+                    key,
+                    interval,
+                    messageTemplate,
+                    completion,
+                    redirect_url
+                );
+                break;
+            case "finished":
+                alert(completion);
+                location.href = redirect_url;
+                break;
+            case "error":
+                alert(data.error_message);
+                break;
+            default:
+                break;
+            }
+        },
+        error: ajaxErrorCallback
+    });
 }
