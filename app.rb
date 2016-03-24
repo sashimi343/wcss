@@ -41,12 +41,12 @@ get '/progresses' do
     halt 400 unless params[:key]
 
     progress = settings.progresses[params[:key]]
-    
-    if progress
-        progress.to_json
-    else
-        halt 404
-    end
+    halt 404 unless progress
+
+    # 完了したタスクはprogressesリストから削除する
+    settings.progresses.delete params[:key] if progress.status == "finished"
+
+    progress.to_json
 end
 
 # コンピ情報を表示する
