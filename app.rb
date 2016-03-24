@@ -6,6 +6,7 @@ require 'cgi'
 require './models/administrator'
 require './models/composer'
 require './models/compilation'
+require './models/progress'
 require './models/participation'
 require './extensions/admin_route'
 require './extensions/user_route'
@@ -24,6 +25,7 @@ DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 enable :sessions
 set :session_secret, ENV['SESSION_SECRET']
+set :progresses, {}
 register AdminRoute, UserRoute
 
 # トップページを表示する
@@ -32,6 +34,19 @@ get '/' do
     @compilations = Compilation.all.select { |e| e.deadline >= Time.current }
     @past_compilations = Compilation.all.select { |e| e.deadline < Time.current }
     erb :top
+end
+
+# 各種処理の進捗情報を返す
+get '/progresses' do
+    halt 400 unless params[:key]
+
+    progress = settings.progresses[params[:key]]
+    halt 404 unless progress
+
+    # 完了したタスクはprogressesリストから削除する
+    settings.progresses.delete params[:key] if progress.status == "finished"
+
+    progress.to_json
 end
 
 # コンピ情報を表示する
@@ -69,18 +84,28 @@ post '/:compi_name/submit' do |compi_name|
     composer = compilation.composers.find_by registration_id: session[:user_id]
     halt 401 unless composer
 
-    # 楽曲提出の処理を行う
-    begin
-        # ファイルの存在確認
-        raise IOError.new('No wav file specified') unless params[:wav_file]
+    progress = Progress.new
+    settings.progresses[progress.key] = progress
 
-        composer.submit_song compilation, params[:song_title], params[:artist], params[:wav_file][:tempfile], params[:comment]
+    # 楽曲提出の処理を別スレッドで行う
+    Thread.new do
+        begin
+            # ファイルの存在確認
+            raise IOError.new('No wav file specified') unless params[:wav_file]
 
-        {
-            message: "楽曲の提出が成功しました\n登録した楽曲情報はユーザページで確認できます",
-            redirect: '/dashboard'
-        }.to_json
-    rescue => e
-        { message: e.message }.to_json
+            composer.submit_song(
+                compilation,
+                progress,
+                params[:song_title],
+                params[:artist],
+                params[:wav_file][:tempfile],
+                params[:comment]
+            )
+        rescue => e
+            progress.update error_message: e.message
+        end
     end
+
+    # クライアントに進捗情報問い合わせキーを送信する
+    progress.to_json
 end

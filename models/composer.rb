@@ -1,4 +1,5 @@
 require 'active_record'
+require 'json'
 
 class Composer < ActiveRecord::Base
     # バリデーション
@@ -46,6 +47,7 @@ class Composer < ActiveRecord::Base
     # コンピに楽曲を提出する
     # ==== Args
     # _compilation_ :: 楽曲を提出するコンピのモデル
+    # _progress_ :: 進捗情報管理用オブジェクト
     # _wav_file :: 提出するwavファイル
     # _song_title :: 曲名
     # _artist_ :: アーティスト名
@@ -54,7 +56,7 @@ class Composer < ActiveRecord::Base
     # ArgumentError :: 作曲者がコンピに参加していない場合に発生
     # IOError :: ファイルをアップロードできない場合に発生
     # ActiveRecord::RecordInvalid :: その他のバリデーションエラー時に発生
-    def submit_song(compilation, song_title, artist, wav_file, comment)
+    def submit_song(compilation, progress, song_title, artist, wav_file, comment)
         participation = compilation.participations.find_by composer_id: id
         unless participation
             raise ArgumentError.new "#{name}はコンピ'#{compilation.title}'に参加していません"
@@ -79,8 +81,35 @@ class Composer < ActiveRecord::Base
                 dropbox.file_delete metadata['path']
             end
 
-            # Dropboxに曲ファイルをアップロードする (古いファイルは上書きする)
-            dropbox.put_file "#{compilation.compilation_name}/#{participation.id}_#{registration_id}.wav", wav_file
+            # Dropboxに曲ファイルをアップロードする
+            chunked_uploader = dropbox.get_chunked_uploader wav_file, wav_file.size
+            while chunked_uploader.offset < wav_file.size do
+                chunked_uploader.upload 1024**2 * 2
+                progress.update progress: chunked_uploader.offset.to_f / wav_file.size
+            end
+            chunked_uploader.finish "#{compilation.compilation_name}/#{participation.id}_#{registration_id}.wav"
+        end
+    end
+end
+
+# dropbox sdk 1.6.5 のチャンクアップロードを
+# 1回アップロードするごとにreturnさせるパッチ
+class DropboxClient
+    class ChunkedUploader
+        def upload(chunk_size = 1024**2 * 4)
+            @file_obj.seek(@offset) unless @file_obj.pos == @offset
+            data = @file_obj.read chunk_size
+
+            begin
+                response = @client.partial_chunked_upload data, @upload_id, @offset
+            rescue => e
+                response = JSON.parse(e.http_response) rescue {}
+                raise e unless response.body['offset']
+            end
+
+            metadata = JSON.parse response.body
+            @upload_id = metadata['upload_id']
+            @offset = metadata['offset'].to_i
         end
     end
 end
