@@ -25,6 +25,7 @@ DROPBOX_ACCESS_TOKEN = ENV['DROPBOX_ACCESS_TOKEN']
 
 enable :sessions
 set :session_secret, ENV['SESSION_SECRET']
+set :server, :thin
 set :progresses, {}
 register AdminRoute, UserRoute
 

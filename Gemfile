@@ -4,6 +4,7 @@ gem 'sinatra'
 gem 'dropbox-sdk'
 gem 'bcrypt'
 gem 'dotenv'
+gem 'thin'
 
 # Active Record
 gem 'sinatra-activerecord'
