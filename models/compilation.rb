@@ -6,7 +6,7 @@ class Compilation < ActiveRecord::Base
     validates :compilation_name, presence: true
     validates :compilation_name, uniqueness: true
     validates :compilation_name, format: { with: VALID_NAME_REGEX }
-    validates :compilation_name, exclusion: { in: %w(dashboard admin login logout register settings) }
+    validates :compilation_name, exclusion: { in: %w(dashboard admin login logout register settings progresses) }
     validates :title, presence: true
     validates :title, length: { in: 1..127 }
     validates :description, presence: true
