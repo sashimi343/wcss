@@ -86,8 +86,6 @@ class Composer < ActiveRecord::Base
             while chunked_uploader.offset < wav_file.size do
                 chunked_uploader.upload 1024**2 * 2
                 progress.update progress: chunked_uploader.offset.to_f / wav_file.size
-                # debug
-                p progress.to_json
             end
             chunked_uploader.finish "#{compilation.compilation_name}/#{participation.id}_#{registration_id}.wav"
         end

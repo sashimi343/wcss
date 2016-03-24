@@ -103,8 +103,6 @@ post '/:compi_name/submit' do |compi_name|
             )
         rescue => e
             progress.update error_message: e.message
-            # debug
-            p progress.to_json
         end
     end
 
