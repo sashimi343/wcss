@@ -43,7 +43,7 @@ $("#modify-compilation button").on("click", function () {
 // 楽曲提出フォーム
 $("#submit button").on("click", function () {
     // ローディング画像の表示
-    displayLoading("送信中...");
+    displayLoading("送信準備中...");
 
     // アップロード状況表示用コールバック関数
     var callback = function (data) {
