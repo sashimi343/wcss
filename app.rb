@@ -3,16 +3,12 @@ require 'active_record'
 require 'dropbox_sdk'
 require 'json'
 require 'cgi'
-require './models/administrator'
-require './models/composer'
-require './models/compilation'
-require './models/progress'
-require './models/participation'
-require './extensions/admin_route'
-require './extensions/user_route'
-
 require 'dotenv'
 Dotenv.load
+
+# ファイルの一括読み込み
+Dir["./models/*.rb"].each { |file| require file }
+Dir["./extensions/*.rb"].each { |file| require file }
 
 ActiveRecord::Base.configurations = YAML.load_file('config/database.yml')
 ActiveRecord::Base.establish_connection(ENV['RACK_ENV'])
